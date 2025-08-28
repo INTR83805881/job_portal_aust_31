@@ -26,9 +26,11 @@ class StoreApplicantsRequest extends FormRequest
             'userId' => ['required', 'exists:users,id'], // must correspond to an existing user
             'address' => ['required', 'string', 'max:255'],
             'qualification' => ['required', 'string', 'max:255'],
-            'skills' => ['required', 'array'], // JSON array
+            //'skills' => ['required', 'array'], // JSON array
             'resume' => ['nullable', 'string', 'max:255'], // path string
             'coverLetter' => ['nullable', 'string', 'max:255'], // path string
+            // 'resume' => ['nullable', 'file', 'mimes:pdf', 'max:2048'],       // must be a PDF, max 2MB
+            //'coverLetter' => ['nullable', 'file', 'mimes:pdf', 'max:2048'], // must be a PDF, max 2MB
         ];
     }
 

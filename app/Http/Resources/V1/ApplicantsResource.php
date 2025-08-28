@@ -22,7 +22,7 @@ class ApplicantsResource extends JsonResource
             'email' => $this->user ? $this->user->email : null,
             'address' => $this->address,
             'qualification' => $this->qualification,
-            'skills' => $this->skills,
+           // 'skills' => $this->skills,
             'resume' => $this->resume,
             'coverLetter' => $this->cover_letter,
             'contacts' => ApplicantContactsResource::collection($this->whenLoaded('contacts')),
