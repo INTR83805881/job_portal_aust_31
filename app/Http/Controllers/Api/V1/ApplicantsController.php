@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Applicants;
-use App\Http\Requests\StoreApplicantsRequest;
-use App\Http\Requests\UpdateApplicantsRequest;
+use App\Http\Requests\V1\StoreApplicantsRequest;
+use App\Http\Requests\V1\UpdateApplicantsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ApplicantsResource;
 use App\Http\Resources\V1\ApplicantsCollection; // Assuming you have a resource collection for applicants
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Filters\V1\ApplicantsFilter; // Assuming you have a filter class for applicants
 
 class ApplicantsController extends Controller
@@ -24,6 +25,7 @@ class ApplicantsController extends Controller
          $includeApplicantContacts = $request->query('includeApplicantContacts');
          $includeJobCompletions = $request->query('includeJobCompletions');
          $includeCurrentJobs = $request->query('includeCurrentJobs');
+         $includeApplicantSkillsets = $request->query('includeApplicantSkillsets');
 
            $applicants = Applicants::where($filterItems);
            
@@ -41,6 +43,10 @@ class ApplicantsController extends Controller
             $applicants = $applicants->with('currentJobs'); // Eager load job completions if requested
           }
 
+            if($includeApplicantSkillsets){
+                $applicants = $applicants->with('applicantSkillsets.skill'); // Eager load skills if requested
+            }
+
         return new ApplicantsCollection($applicants->paginate()->appends($request->query()));
 
         // Applicants::where($filterItems);
@@ -48,20 +54,14 @@ class ApplicantsController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+   
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(StoreApplicantsRequest $request)
     {
-        //
+        return new ApplicantsResource(Applicants::create($request->all())); // Example implementation
     }
 
     /**
@@ -72,13 +72,6 @@ class ApplicantsController extends Controller
        return new ApplicantsResource($applicant); // Example implementation
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Applicants $applicants)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -95,4 +88,22 @@ class ApplicantsController extends Controller
     {
         //
     }
+
+    public function getFiles($applicantId)
+{
+    $applicant = \App\Models\Applicants::find($applicantId);
+
+    if (!$applicant) {
+        return response()->json(['error' => 'Applicant not found'], 404);
+    }
+
+    $resumeUrl = $applicant->resume ? asset('storage/' . $applicant->resume) : null;
+    $coverLetterUrl = $applicant->cover_letter ? asset('storage/' . $applicant->cover_letter) : null;
+
+    return response()->json([
+        'applicant_id' => $applicant->id,
+        'resume' => $resumeUrl,
+        'cover_letter' => $coverLetterUrl,
+    ]);
+}
 }

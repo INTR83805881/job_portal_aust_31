@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobSkillset;
-use App\Http\Requests\StoreJobSkillsetRequest;
-use App\Http\Requests\UpdateJobSkillsetRequest;
+use App\Http\Requests\V1\StoreJobSkillsetRequest;
+use App\Http\Requests\V1\UpdateJobSkillsetRequest;
+use Illuminate\Validation\Rule;
 
 class JobSkillsetController extends Controller
 {

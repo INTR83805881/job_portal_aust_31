@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Filters\V1\CustomerFilter; // Import the CustomerQuery service
 use App\Http\Requests\V1\StoreCustomerRequest;
 use App\Http\Requests\V1\UpdateCustomerRequest;
+use Illuminate\Validation\Rule;
 
 class CustomerController extends Controller
 {

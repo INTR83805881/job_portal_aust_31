@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\job_completions;
-use App\Http\Requests\Storejob_completionsRequest;
-use App\Http\Requests\Updatejob_completionsRequest;
+use App\Http\Requests\V1\Storejob_completionsRequest;
+use App\Http\Requests\V1\Updatejob_completionsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobsCompletedResource; // Assuming you have a resource for job completions
 use App\Http\Resources\V1\JobsCompletedCollection; // Assuming you have a resource collection for job completions
 use Illuminate\Http\Request;
 use App\Filters\V1\JobCompletionsFilter; // Assuming you have a filter class for job completions
+use Illuminate\Validation\Rule;
 
 class JobCompletionsController extends Controller
 {

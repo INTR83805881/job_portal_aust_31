@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\CurrentJobs;
-use App\Http\Requests\StoreCurrentJobsRequest;
-use App\Http\Requests\UpdateCurrentJobsRequest;
+use App\Http\Requests\V1\StoreCurrentJobsRequest;
+use App\Http\Requests\V1\UpdateCurrentJobsRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Resources\V1\CurrentJobsResource;
 use App\Filters\V1\CurrentJobsFilter;
 use App\Http\Resources\V1\CurrentJobsCollection;

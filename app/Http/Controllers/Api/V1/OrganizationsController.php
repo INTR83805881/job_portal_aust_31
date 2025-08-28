@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Organizations;
-use App\Http\Requests\StoreOrganizationsRequest;
-use App\Http\Requests\UpdateOrganizationsRequest;
+use App\Http\Requests\V1\StoreOrganizationsRequest;
+use App\Http\Requests\V1\UpdateOrganizationsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\OrganizationsResource;
 use App\Http\Resources\V1\OrganizationsCollection; // Assuming you have a resource collection for organizations
 use Illuminate\Http\Request;
 use App\Filters\V1\OrganizationsFilter; // Assuming you have a filter class for organizations
+use Illuminate\Validation\Rule;
 
 class OrganizationsController extends Controller
 {

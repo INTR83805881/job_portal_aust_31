@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->enum('role',['admin', 'applicant','organization'])->default('applicant'); // Assuming a role column for user roles
             $table->string('profile_picture')->nullable(); // Assuming a profile picture column
-
+            
             $table->rememberToken();
             $table->timestamps();
         });

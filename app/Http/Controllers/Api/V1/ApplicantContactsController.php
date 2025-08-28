@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Applicant_contacts;
-use App\Http\Requests\StoreApplicant_contactsRequest;
-use App\Http\Requests\UpdateApplicant_contactsRequest;
+use App\Http\Requests\V1\StoreApplicant_contactsRequest;
+use App\Http\Requests\V1\UpdateApplicant_contactsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\ApplicantContactsResource;
 use App\Http\Resources\V1\ApplicantContactsCollection; // Assuming you have a resource collection for applicant contacts
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Filters\V1\ApplicantContactsFilter; // Assuming you have a filter class for applicant contacts
 
 class ApplicantContactsController extends Controller
