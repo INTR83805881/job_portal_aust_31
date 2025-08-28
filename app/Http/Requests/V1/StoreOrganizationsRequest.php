@@ -4,6 +4,7 @@ namespace App\Http\Requests\V1;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+
 class StoreOrganizationsRequest extends FormRequest
 {
     /**
@@ -22,7 +23,17 @@ class StoreOrganizationsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'userId' => ['required', 'exists:users,id'],
+            'companyName' => ['required', 'string', 'max:255'],
+            'address' => ['required', 'string', 'max:255'],
+            'contacts' => ['nullable', 'array'], // JSON array of contacts
         ];
+    }
+     protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'user_id' => $this->userId,
+            'company_name' => $this->companyName,
+        ]);
     }
 }

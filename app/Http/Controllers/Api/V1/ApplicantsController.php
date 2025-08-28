@@ -61,6 +61,7 @@ class ApplicantsController extends Controller
      */
     public function store(StoreApplicantsRequest $request)
     {
+        \Log::info('Storing new applicant with data: ', $request->all());
         return new ApplicantsResource(Applicants::create($request->all())); // Example implementation
     }
 
