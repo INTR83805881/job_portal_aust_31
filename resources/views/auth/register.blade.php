@@ -1,12 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen flex items-center justify-center bg-background">
-    <div class="w-full max-w-md bg-card shadow-lg rounded-xl p-6">
-        <!-- Logo & Heading -->
-        <div class="text-center mb-6">
-            <h1 class="text-2xl font-semibold text-foreground">Job Axis</h1>
-            <p class="text-muted-foreground mt-2">Create your account</p>
+
+{{-- 🌟 Register Section --}}
+<section class="relative w-full min-h-screen flex items-center justify-center bg-gray-100 py-20">
+
+    {{-- Background --}}
+    <div class="absolute inset-0">
+        <img src="{{ asset('images/we-are-hiring-digital-collage.jpg') }}" 
+             alt="Job Axis Register Background" 
+             class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    </div>
+
+    {{-- Register Card --}}
+    <div class="relative z-10 w-full max-w-lg bg-white/90 backdrop-blur-xl rounded-2xl shadow-2xl p-10">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-extrabold text-gray-800">Create an Account ✨</h2>
+            <p class="text-gray-600 mt-2">Join <span class="text-indigo-600 font-semibold">Job Axis</span> and start your journey today!</p>
         </div>
 
         <!-- Sign In / Sign Up Toggle -->
@@ -25,41 +36,51 @@
         <form method="POST" action="{{ route('register') }}" enctype="multipart/form-data" class="space-y-4">
             @csrf
 
-            <!-- Name -->
-            <div>
-                <label for="name" class="block text-sm font-medium text-foreground">Full Name</label>
-                <input id="name" type="text" name="name" value="{{ old('name') }}" required
-                       class="w-full mt-1 px-3 py-2 border rounded-lg bg-input-background focus:ring focus:ring-ring">
-                @error('name')
-                    <p class="text-destructive text-sm mt-1">{{ $message }}</p>
-                @enderror
+            {{-- Name --}}
+            <div class="mb-5">
+                <x-input-label for="name" :value="__('Full Name')" class="text-gray-700" />
+                <x-text-input id="name" 
+                              class="block mt-2 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                              type="text" 
+                              name="name" 
+                              :value="old('name')" 
+                              required 
+                              autofocus 
+                              autocomplete="name" />
             </div>
 
-            <!-- Email -->
-            <div>
-                <label for="email" class="block text-sm font-medium text-foreground">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email') }}" required
-                       class="w-full mt-1 px-3 py-2 border rounded-lg bg-input-background focus:ring focus:ring-ring">
-                @error('email')
-                    <p class="text-destructive text-sm mt-1">{{ $message }}</p>
-                @enderror
+            {{-- Email --}}
+            <div class="mb-5">
+                <x-input-label for="email" :value="__('Email')" class="text-gray-700" />
+                <x-text-input id="email" 
+                              class="block mt-2 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                              type="email" 
+                              name="email" 
+                              :value="old('email')" 
+                              required 
+                              autocomplete="username" />
             </div>
 
-            <!-- Password -->
-            <div>
-                <label for="password" class="block text-sm font-medium text-foreground">Password</label>
-                <input id="password" type="password" name="password" required
-                       class="w-full mt-1 px-3 py-2 border rounded-lg bg-input-background focus:ring focus:ring-ring">
-                @error('password')
-                    <p class="text-destructive text-sm mt-1">{{ $message }}</p>
-                @enderror
+            {{-- Password --}}
+            <div class="mb-5">
+                <x-input-label for="password" :value="__('Password')" class="text-gray-700" />
+                <x-text-input id="password" 
+                              class="block mt-2 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                              type="password"
+                              name="password"
+                              required 
+                              autocomplete="new-password" />
             </div>
 
-            <!-- Confirm Password -->
-            <div>
-                <label for="password_confirmation" class="block text-sm font-medium text-foreground">Confirm Password</label>
-                <input id="password_confirmation" type="password" name="password_confirmation" required
-                       class="w-full mt-1 px-3 py-2 border rounded-lg bg-input-background focus:ring focus:ring-ring">
+            {{-- Confirm Password --}}
+            <div class="mb-6">
+                <x-input-label for="password_confirmation" :value="__('Confirm Password')" class="text-gray-700" />
+                <x-text-input id="password_confirmation" 
+                              class="block mt-2 w-full rounded-xl border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                              type="password"
+                              name="password_confirmation"
+                              required 
+                              autocomplete="new-password" />
             </div>
 
             <!-- Role -->
@@ -121,9 +142,12 @@
             </button>
         </form>
 
-        <p class="mt-6 text-center text-sm text-muted-foreground">
-            Already have an account?
-            <a href="{{ route('login') }}" class="text-primary font-medium">Sign In</a>
+        {{-- Already have account --}}
+        <p class="mt-6 text-center text-gray-600">
+            Already have an account? 
+            <a href="{{ route('login') }}" class="text-indigo-600 hover:text-indigo-800 font-semibold">
+                Log in here
+            </a>
         </p>
     </div>
 </div>
