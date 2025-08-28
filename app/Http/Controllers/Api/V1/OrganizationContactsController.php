@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Organization_contacts;
-use App\Http\Requests\StoreOrganization_contactsRequest;
-use App\Http\Requests\UpdateOrganization_contactsRequest;
+use App\Http\Requests\V1\StoreOrganization_contactsRequest;
+use App\Http\Requests\V1\UpdateOrganization_contactsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\OrganizationContactsResource;
 use App\Http\Resources\V1\OrganizationContactsCollection; // Assuming you have a resource collection for organization contacts
 use Illuminate\Http\Request;
 use App\Filters\V1\OrganizationContactsFilter; // Assuming you have a filter class for organization contacts
+use Illuminate\Validation\Rule;
 
 class OrganizationContactsController extends Controller
 {

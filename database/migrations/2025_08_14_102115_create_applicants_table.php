@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // Foreign key to users table
              $table->string('address');// Applicant's address
              $table->string('qualification'); // Applicant's qualification
-              $table->json('skills'); // Applicant's skills stored as JSON
+             // $table->json('skills'); // Applicant's skills stored as JSON
             $table->string('resume')->nullable(); // Path to the applicant's resume
             $table->string('cover_letter')->nullable(); // Path to the applicant's cover letter
             $table->timestamps();

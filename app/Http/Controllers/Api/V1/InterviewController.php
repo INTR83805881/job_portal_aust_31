@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Interview;
-use App\Http\Requests\StoreInterviewRequest;
-use App\Http\Requests\UpdateInterviewRequest;
+use App\Http\Requests\V1\StoreInterviewRequest;
+use App\Http\Requests\V1\UpdateInterviewRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\InterviewResource; // Assuming you have a resource for interviews
 use App\Http\Resources\V1\InterviewCollection; // Assuming you have a resource collection for interviews
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InterviewController extends Controller
 {

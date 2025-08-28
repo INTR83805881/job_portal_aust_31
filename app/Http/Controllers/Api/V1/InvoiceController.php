@@ -10,6 +10,7 @@ use App\Http\Resources\V1\InvoiceResource;
 use App\Http\Resources\V1\InvoiceCollection;
 use App\Filters\V1\InvoicesFilter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class InvoiceController extends Controller
 {

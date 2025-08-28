@@ -38,7 +38,7 @@ Route::get('/auth', function () {
     return view('auth.index');
 })->name('auth');
 
-Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+//Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

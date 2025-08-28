@@ -6,6 +6,8 @@ use Illuminate\Database\Seeder;
 use App\Models\Applicants;
 use App\Models\Applicant_contacts;
 use App\Models\Jobs;
+use App\Models\Skills;
+use App\Models\ApplicantSkillset;
 
 class ApplicantsSeeder extends Seeder
 {
@@ -60,6 +62,23 @@ class ApplicantsSeeder extends Seeder
                 ]);
             }
         }
+
+        $allSkills = Skills::all()->pluck('id')->toArray();
+
+foreach ($applicants as $applicant) {
+    if (!empty($allSkills)) {
+        // Each applicant gets 1-5 random skills
+        $skillsToAttach = collect($allSkills)->random(rand(1, 5))->toArray();
+
+        foreach ($skillsToAttach as $skillId) {
+            ApplicantSkillset::create([
+                'applicant_id' => $applicant->id,
+                'skill_id'     => $skillId,
+            ]);
+        }
+    }
+}
+
     }
     
 }

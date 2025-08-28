@@ -18,15 +18,16 @@ class Applicants extends Model
     protected $table = 'applicants';
 
     protected $fillable = [
+        'user_id',
         'address',
         'qualification',
-        'skills',
+        //'skills',
         'resume',
         'cover_letter',
     ];
 
     protected $casts = [
-        'skills' => 'array', // Automatically cast JSON to array
+        //'skills' => 'array', // Automatically cast JSON to array
     ];
 
     /**
@@ -90,4 +91,9 @@ public function currentJobs()
             'id'  // Local key on applications
         );
     }
+   public function applicantSkillsets()
+{
+    return $this->hasMany(ApplicantSkillset::class, 'applicant_id');
+}
+
 }

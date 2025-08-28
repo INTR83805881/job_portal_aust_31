@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\Jobs;
-use App\Http\Requests\StoreJobsRequest;
-use App\Http\Requests\UpdateJobsRequest;
+use App\Http\Requests\V1\StoreJobsRequest;
+use App\Http\Requests\V1\UpdateJobsRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\JobsResource;
 use App\Http\Resources\V1\JobsCollection; // Assuming you have a resource collection for jobs
 use Illuminate\Http\Request;
 use App\Filters\V1\JobsFilter; // Assuming you have a filter class for jobs
+use Illuminate\Validation\Rule;
 
 class JobsController extends Controller
 {

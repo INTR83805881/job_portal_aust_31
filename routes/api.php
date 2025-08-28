@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1','namespace'=>'App\Http\Controllers\Api\V1'], func
     Route::apiResource('organization_contacts', OrganizationContactsController::class);
     Route::apiResource('job_completions', JobCompletionsController::class);
  Route::apiResource('skills', SkillsController::class);
+ Route::get('/applicants/{id}/files', [ApplicantsController::class, 'getFiles']);
 
     
     

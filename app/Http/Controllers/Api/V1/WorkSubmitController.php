@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\WorkSubmit;
-use App\Http\Requests\StoreWorkSubmitRequest;
-use App\Http\Requests\UpdateWorkSubmitRequest;
+use App\Http\Requests\V1\StoreWorkSubmitRequest;
+use App\Http\Requests\V1\UpdateWorkSubmitRequest;
+use Illuminate\Validation\Rule;
 
 class WorkSubmitController extends Controller
 {

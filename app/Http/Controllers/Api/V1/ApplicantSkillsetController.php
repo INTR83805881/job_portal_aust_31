@@ -4,17 +4,32 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\ApplicantSkillset;
-use App\Http\Requests\StoreApplicantSkillsetRequest;
-use App\Http\Requests\UpdateApplicantSkillsetRequest;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\V1\StoreApplicantSkillsetRequest;
+use App\Http\Requests\V1\UpdateApplicantSkillsetRequest;
+use Illuminate\Http\Request;
+use App\Http\Resources\V1\ApplicantSkillsetsResource;
+use App\Http\Resources\V1\ApplicantSkillsetsCollection; // Assuming you have a resource collection for applicant skillsets
+use App\Filters\V1\ApplicantSkillsetFilter;
+
 
 class ApplicantSkillsetController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+         $filter = new ApplicantSkillsetFilter();
+         $filterItems = $filter->transform($request);
+
+         if(count($filterItems) === 0) {
+            return new ApplicantSkillsetsCollection(ApplicantSkillset::paginate()); // Example implementation
+         }
+         else {
+           $applicantSkillset = ApplicantSkillset::where($filterItems)->paginate();
+            return new ApplicantSkillsetsCollection($applicantSkillset->appends($request->query())); // Example implementation
+         }
     }
 
     /**

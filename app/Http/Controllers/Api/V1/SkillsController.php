@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Skills;
-use App\Http\Requests\StoreSkillsRequest;
-use App\Http\Requests\UpdateSkillsRequest;
+use App\Http\Requests\V1\StoreSkillsRequest;
+use App\Http\Requests\V1\UpdateSkillsRequest;
 use App\Http\Resources\V1\SkillsResource;
 use App\Http\Resources\V1\SkillsCollection;
 use App\Filters\V1\SkillsFilter;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class SkillsController extends Controller
 {

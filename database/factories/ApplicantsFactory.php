@@ -22,7 +22,7 @@ class ApplicantsFactory extends Factory
             'user_id' => User::factory()->state(['role' => 'applicant']),
             'address' => $this->faker->address,
             'qualification' => $this->faker->word,
-            'skills' => $this->faker->words(3, true),
+            //'skills' => $this->faker->words(3, true),
             'resume' => 'resumes/' . $this->faker->uuid() . '.pdf',
             'cover_letter' => 'covers/' . $this->faker->uuid() . '.pdf',
         ];

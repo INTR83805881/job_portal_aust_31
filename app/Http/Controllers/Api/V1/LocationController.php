@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\Location;
-use App\Http\Requests\StoreLocationRequest;
-use App\Http\Requests\UpdateLocationRequest;
+use App\Http\Requests\V1\StoreLocationRequest;
+use App\Http\Requests\V1\UpdateLocationRequest;
+use Illuminate\Validation\Rule;
 
 class LocationController extends Controller
 {

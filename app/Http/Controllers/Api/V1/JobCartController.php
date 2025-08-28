@@ -4,8 +4,9 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use App\Models\JobCart;
-use App\Http\Requests\StoreJobCartRequest;
-use App\Http\Requests\UpdateJobCartRequest;
+use App\Http\Requests\V1\StoreJobCartRequest;
+use App\Http\Requests\V1\UpdateJobCartRequest;
+use Illuminate\Validation\Rule;
 
 class JobCartController extends Controller
 {
