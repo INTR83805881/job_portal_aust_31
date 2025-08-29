@@ -20,42 +20,24 @@ class RegisterController extends Controller
 
     // Handle registration
     public function register(Request $request)
-    {
-        $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'in:applicant,organization'],
-        ]);
+{
+    $request->validate([
+        'name' => ['required', 'string', 'max:255'],
+        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        'password' => ['required', 'string', 'min:8', 'confirmed'],
+        'role' => ['required', 'in:applicant,organization'],
+    ]);
 
-        // Create user
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role' => $request->role,
-        ]);
+    $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'password' => Hash::make($request->password),
+        'role' => $request->role,
+    ]);
 
-        // Create related empty record
-        if ($user->role === 'applicant') {
-            Applicant::create([
-                'user_id' => $user->id,
-                'address' => '',
-                'qualification' => '',
-                'skills' => json_encode([]),
-                'resume' => null,
-                'cover_letter' => null,
-            ]);
-        } elseif ($user->role === 'organization') {
-            Organization::create([
-                'user_id' => $user->id,
-                'company_name' => '',
-                'address' => '',
-            ]);
-        }
+    Auth::login($user);
 
-        Auth::login($user);
+    return redirect('/'); 
+}
 
-        return redirect('/'); // redirect to home after signup
-    }
 }
