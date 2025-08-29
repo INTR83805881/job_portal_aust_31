@@ -45,23 +45,15 @@ class RegisteredUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-  public function store(Request $request): RedirectResponse
+ public function store(Request $request): RedirectResponse
 {
-    // Validate common fields
     $request->validate([
         'name' => ['required', 'string', 'max:255'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'confirmed', Rules\Password::defaults()],
         'role' => ['required', 'in:applicant,organization'],
-        'resume' => ['nullable', 'string', 'max:255'],        // just string
-        'cover_letter' => ['nullable', 'string', 'max:255'],  // just string
-        'address' => $request->role === 'applicant' ? ['required', 'string', 'max:255'] : [],
-        'qualification' => $request->role === 'applicant' ? ['required', 'string', 'max:255'] : [],
-        'company_name' => $request->role === 'organization' ? ['required', 'string', 'max:255'] : [],
-        'org_address' => $request->role === 'organization' ? ['required', 'string', 'max:255'] : [],
     ]);
 
-    // Create the user
     $user = User::create([
         'name' => $request->name,
         'email' => $request->email,
@@ -69,37 +61,11 @@ class RegisteredUserController extends Controller
         'role' => $request->role,
     ]);
 
-    // Just take the uploaded file names as strings (do not store files)
-    $resumeName = $request->hasFile('resume') ? $request->file('resume')->getClientOriginalName() : null;
-    $coverLetterName = $request->hasFile('cover_letter') ? $request->file('cover_letter')->getClientOriginalName() : null;
-
-    // Merge file names and other fields into the request
-    if ($user->role === 'applicant') {
-        $request->merge([
-            'userId' => $user->id,
-            'address' => $request->address,
-            'qualification' => $request->qualification,
-            'resume' => $resumeName,       // string only
-            'coverLetter' => $coverLetterName, // string only
-        ]);
-
-        return $this->applicantsController->store($request);
-    }
-
-    if ($user->role === 'organization') {
-        $request->merge([
-            'userId' => $user->id,
-            'companyName' => $request->company_name,
-            'address' => $request->org_address,
-        ]);
-
-        return $this->organizationsController->store($request);
-    }
-
     event(new Registered($user));
     Auth::login($user);
 
     return redirect(RouteServiceProvider::HOME);
 }
+
 
 }

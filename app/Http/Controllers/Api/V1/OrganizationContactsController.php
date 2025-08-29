@@ -42,9 +42,10 @@ class OrganizationContactsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreOrganization_contactsRequest $request)
+    public function store(StoreOrganization_contactsRequest $request, UserRoleService $roleService)
     {
-        //
+         $organization = $roleService->createOrganization($request->userId, $request->all());
+    return new OrganizationsResource($organization);
     }
 
     /**
