@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Web\JobPageController;
 
 
 
@@ -26,9 +27,7 @@ Route::get('/jobs', function () {
     return view('jobs');
 })->name('jobs');
 
-Route::get('/job/{id}', function ($id) {
-    return view('jobs.show', compact('id'));
-})->name('jobs.show');
+
 
 Route::get('/about', function () {
     return view('about');
@@ -64,3 +63,6 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::get('/jobs', [JobPageController::class, 'index'])->name('jobs.index');
+Route::post('/jobs/apply/{job}', [JobPageController::class, 'apply'])->middleware('auth')->name('jobs.apply');

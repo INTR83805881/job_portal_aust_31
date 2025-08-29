@@ -13,7 +13,7 @@
             <!-- Left Navigation Links (always visible) -->
             <div class="hidden sm:flex space-x-6">
                 <a href="{{ route('home') }}" class="{{ request()->is('/') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Home</a>
-                <a href="{{ route('jobs') }}" class="{{ request()->is('jobs') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Jobs</a>
+                <a href="{{ route('jobs.index') }}" class="{{ request()->is('jobs') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Jobs</a>
                 <a href="{{ route('about') }}" class="{{ request()->is('about') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">About</a>
                 <a href="{{ route('contact') }}" class="{{ request()->is('contact') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Contact</a>
             </div>
@@ -70,7 +70,7 @@
         <!-- Left nav links -->
         <div class="pt-2 pb-3 space-y-1">
             <a href="{{ route('home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Home</a>
-            <a href="{{ route('jobs') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Jobs</a>
+            <a href="{{ route('jobs.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Jobs</a>
             <a href="{{ route('about') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">About</a>
             <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Contact</a>
         </div>
