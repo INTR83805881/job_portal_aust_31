@@ -13,10 +13,11 @@ class JobsFilter extends ApiFilter
         'id'             => ['eq', 'gt', 'lt', 'gte', 'lte','ne'], // numeric
         'organizationId' => ['eq'],                             // foreign key
         'jobTitle'       => ['eq', 'like'],                     // title of job
+        'companyName'    => ['like'],                     // from related organizations table
         'description'    => ['eq', 'like'],                     // description text
         'location'       => ['eq', 'like'],                     // location string
         'jobType'        => ['eq'],                             // employment_type enum
-        'salary'         => ['eq', 'like'],                     // salary_range string
+        'salary'         => ['eq', 'gt', 'lt', 'gte', 'lte'],                   // salary_range string
         'deadline'       => ['eq', 'gt', 'lt', 'gte', 'lte'],   // date comparisons
         'postedAt'       => ['eq', 'gt', 'lt', 'gte', 'lte'],   // datetime comparisons
         'status'         => ['eq','ne'],                             // job status enum
@@ -28,5 +29,6 @@ class JobsFilter extends ApiFilter
         'jobTitle'       => 'title',
         'jobType'        => 'employment_type',
         'postedAt'       => 'posted_at',
+      
     ];
 }
