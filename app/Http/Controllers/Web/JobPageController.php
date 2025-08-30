@@ -14,7 +14,7 @@ class JobPageController extends Controller
     public function index()
     {
         // Fetch all jobs, include organization relation for company name
-        $jobs = Jobs::with('organization')->paginate(12);
+        $jobs = Jobs::with('organization')->paginate(10);
 
         // If you want to debug what jobs are being fetched, uncomment:
         // dd($jobs);
