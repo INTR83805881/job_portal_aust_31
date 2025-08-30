@@ -10,7 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Web\JobPageController;
 
-
+use App\Http\Controllers\SkillController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +66,11 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::get('/jobs', [JobPageController::class, 'index'])->name('jobs.index');
 Route::post('/jobs/apply/{job}', [JobPageController::class, 'apply'])->middleware('auth')->name('jobs.apply');
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/skills', [SkillController::class, 'index'])->name('skills.index');
+    Route::get('/skills/create', [SkillController::class, 'create'])->name('skills.create');
+    Route::post('/skills', [SkillController::class, 'store'])->name('skills.store');
+});
