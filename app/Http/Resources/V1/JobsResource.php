@@ -24,7 +24,7 @@ class JobsResource extends JsonResource
             'location' => $this->location,
             'jobType' => $this->employment_type,
             'salary' => $this->salary, // updated field
-
+             'jobSkillsets' => JobsSkillsetsResource::collection($this->whenLoaded('jobSkillsets')), // Eager loaded skills
         ];
     }
 }

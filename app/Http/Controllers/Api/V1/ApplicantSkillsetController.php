@@ -10,7 +10,7 @@ use App\Http\Requests\V1\UpdateApplicantSkillsetRequest;
 use Illuminate\Http\Request;
 use App\Http\Resources\V1\ApplicantSkillsetsResource;
 use App\Http\Resources\V1\ApplicantSkillsetsCollection; // Assuming you have a resource collection for applicant skillsets
-use App\Filters\V1\ApplicantSkillsetFilter;
+use App\Filters\V1\ApplicantSkillsetsFilter;
 
 
 class ApplicantSkillsetController extends Controller
@@ -20,7 +20,7 @@ class ApplicantSkillsetController extends Controller
      */
     public function index(Request $request)
     {
-         $filter = new ApplicantSkillsetFilter();
+         $filter = new ApplicantSkillsetsFilter();
          $filterItems = $filter->transform($request);
 
          if(count($filterItems) === 0) {
