@@ -7,15 +7,28 @@ use App\Models\JobSkillset;
 use App\Http\Requests\V1\StoreJobSkillsetRequest;
 use App\Http\Requests\V1\UpdateJobSkillsetRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Http\Request;
+use App\Http\Resources\V1\JobsSkillsetsResource;
+use App\Http\Resources\V1\JobsSkillsetsCollection; // Assuming you have a resource collection for applicant skillsets
+use App\Filters\V1\JobSkillsetsFilter;
 
 class JobSkillsetController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+       $filter = new JobSkillsetsFilter();
+         $filterItems = $filter->transform($request);
+
+         if(count($filterItems) === 0) {
+            return new JobsSkillsetsCollection(JobSkillset::paginate()); // Example implementation
+         }
+         else {
+           $jobSkillset = JobSkillset::where($filterItems)->paginate();
+            return new JobsSkillsetsCollection($jobSkillset->appends($request->query())); // Example implementation
+         }
     }
 
     /**

@@ -22,13 +22,16 @@ class JobsController extends Controller
         $filter = new JobsFilter();
          $filterItems = $filter->transform($request);
 
-         if(count($filterItems) === 0) {
-            return new JobsCollection(Jobs::paginate()); // Example implementation
-         }
-         else {
-            $jobs = Jobs::where($filterItems)->paginate();
-            return new JobsCollection($jobs->appends($request->query())); // Example implementation
-         }
+         $includeJobSkillsets = $request->query('includeJobSkillsets');
+
+         $jobs = Jobs::where($filterItems);
+
+       if($includeJobSkillsets)
+            {
+                $jobs = $jobs->with('jobSkillsets.skill'); // Eager load skills if requested
+            }
+
+             return new JobsCollection($jobs->paginate()->appends($request->query()));
     }
 
     /**

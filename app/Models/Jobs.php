@@ -24,13 +24,13 @@ class Jobs extends Model
         'salary',
         'employment_type',
         'deadline',
-        'posted_at',
+        //'posted_at',
         'status',
     ];
 
     protected $casts = [
-        'requirements' => 'array', // if you store as JSON
-        'posted_at' => 'datetime',
+        //'requirements' => 'array', // if you store as JSON
+        //'posted_at' => 'datetime',
         'deadline' => 'date',
     ];
 
@@ -64,4 +64,8 @@ class Jobs extends Model
             'id'               // Local key on applications table
         );
     }
+       public function jobSkillsets()
+{
+    return $this->hasMany(JobSkillset::class, 'job_id');
+}
 }
