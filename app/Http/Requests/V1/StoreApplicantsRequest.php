@@ -24,6 +24,7 @@ class StoreApplicantsRequest extends FormRequest
     {
         return [
             'userId' => ['required', 'exists:users,id'], // must correspond to an existing user
+             'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'qualification' => ['required', 'string', 'max:255'],
             //'skills' => ['required', 'array'], // JSON array
@@ -39,6 +40,7 @@ class StoreApplicantsRequest extends FormRequest
         $this->merge([
             'user_id' => $this->userId,
             'cover_letter' => $this->coverLetter,
+            'name' => $this->input('name'),
         ]);
     }
 }

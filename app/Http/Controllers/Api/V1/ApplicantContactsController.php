@@ -44,7 +44,7 @@ class ApplicantContactsController extends Controller
      */
     public function store(StoreApplicant_contactsRequest $request)
     {
-        //
+        return new ApplicantContactsResource(Applicant_contacts::create($request->all()));
     }
 
     /**
@@ -68,7 +68,7 @@ class ApplicantContactsController extends Controller
      */
     public function update(UpdateApplicant_contactsRequest $request, Applicant_contacts $applicant_contacts)
     {
-        //
+       $applicant_contacts->update($request->all());
     }
 
     /**

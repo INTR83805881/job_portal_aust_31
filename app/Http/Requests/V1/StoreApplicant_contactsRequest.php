@@ -12,7 +12,7 @@ class StoreApplicant_contactsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,16 @@ class StoreApplicant_contactsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+             'applicantId'=>['required', 'exists:applicants,id'],
+             'type' => ['required', Rule::in(['phone', 'email'])],
+             'value' => ['required', 'string', 'max:255'],
         ];
+    }
+
+     protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'applicant_id' => $this->applicantId,
+        ]);
     }
 }

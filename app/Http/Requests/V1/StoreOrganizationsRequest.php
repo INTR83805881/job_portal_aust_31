@@ -12,7 +12,7 @@ class StoreOrganizationsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,7 +26,7 @@ class StoreOrganizationsRequest extends FormRequest
             'userId' => ['required', 'exists:users,id'],
             'companyName' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'contacts' => ['nullable', 'array'], // JSON array of contacts
+            //'contacts' => ['nullable', 'array'], // JSON array of contacts
         ];
     }
      protected function prepareForValidation(): void

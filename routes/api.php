@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1','namespace'=>'App\Http\Controllers\Api\V1'], func
     Route::apiResource('interviews', InterviewController::class);
     Route::apiResource('organization_contacts', OrganizationContactsController::class);
     Route::apiResource('job_completions', JobCompletionsController::class);
+     Route::apiResource('applicant_skills', ApplicantSkillsetController::class);
     
 
  Route::apiResource('skills', SkillsController::class);

@@ -45,7 +45,7 @@ class ApplicantSkillsetController extends Controller
      */
     public function store(StoreApplicantSkillsetRequest $request)
     {
-        //
+        return new ApplicantSkillsetsResource(ApplicantSkillset::create($request->all()));
     }
 
     /**
@@ -69,7 +69,7 @@ class ApplicantSkillsetController extends Controller
      */
     public function update(UpdateApplicantSkillsetRequest $request, ApplicantSkillset $applicantSkillset)
     {
-        //
+        $applicantSkillset->update($request->all());
     }
 
     /**

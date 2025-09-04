@@ -15,8 +15,10 @@ class ApplicantSkillsetsResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'skill_id' => $this->skill_id,
-            'skill_name' => $this->skill ? $this->skill->skill_name : null,
+            'id' =>$this->id,
+            'applicantId' => $this->applicant_id, //-> to check applicant
+            'skillId' => $this->skill_id,
+            'skillName' => $this->skill ? $this->skill->skill_name : null,
             //eikhane pore ig change korte hoite pare
         ];
     }
