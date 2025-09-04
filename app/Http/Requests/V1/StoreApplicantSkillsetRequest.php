@@ -12,7 +12,7 @@ class StoreApplicantSkillsetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,7 +23,16 @@ class StoreApplicantSkillsetRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+           'applicantId'=>['required', 'exists:applicants,id'],
+           'skillId'=>['required', 'exists:skills,id'],
         ];
+    }
+
+      protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'applicant_id' => $this->applicantId,
+            'skill_id' => $this->skillId,
+        ]);
     }
 }

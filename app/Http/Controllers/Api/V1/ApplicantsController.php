@@ -62,8 +62,18 @@ class ApplicantsController extends Controller
     public function store(StoreApplicantsRequest $request)
     {
         \Log::info('Storing new applicant with data: ', $request->all());
-        return new ApplicantsResource(Applicants::create($request->all())); // Example implementation
+       
+        // Create the applicant
+    $applicant = Applicants::create($request->validated());
+
+    // Update associated user's name
+    if ($request->filled('name')) {
+        $applicant->user->update(['name' => $request->name]);
     }
+
+    return new ApplicantsResource($applicant->load('user')); // optionally load user
+}
+    
 
     /**
      * Display the specified resource.
@@ -77,10 +87,27 @@ class ApplicantsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateApplicantsRequest $request, Applicants $applicants)
-    {
-        //
+public function update(UpdateApplicantsRequest $request, Applicants $applicant)
+{
+    $validated = $request->validated();
+
+    \Log::info('Validated Data:', $validated); // check what’s coming here
+
+    if (empty($validated)) {
+        return response()->json([
+            'message' => 'No fields to update'
+        ], 400);
     }
+
+    $applicant->update($validated);
+
+   if ($request->filled('name')) {
+        $applicant->user->update(['name' => $request->name]);
+    }
+
+    return new ApplicantsResource($applicant->load('user'));
+}
+
 
     /**
      * Remove the specified resource from storage.

@@ -11,7 +11,7 @@ class UpdateApplicant_contactsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,39 @@ class UpdateApplicant_contactsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $method = $this->method();
+
+        if($method=='PUT')
+        {
+             return [
+             'applicantId'=>['required', 'exists:applicants,id'],
+             'type' => ['required', Rule::in(['phone', 'email'])],
+             'value' => ['required', 'string', 'max:255'],
         ];
+        }
+        else if($method=='PATCH')
+        {
+            return 
+            [
+             'applicantId'=>['sometimes','required', 'exists:applicants,id'],
+             'type' => ['sometimes','required', Rule::in(['phone', 'email'])],
+             'value' => ['sometimes','required', 'string', 'max:255'],
+            ];
+        }
+       
     }
+
+          protected function prepareForValidation(): void
+{
+    $mergeData = [];
+
+    // Map camelCase to snake_case for database
+    if ($this->filled('applicantId')) {
+        $mergeData['applicant_id'] = $this->input('applicantId');
+    }
+    
+    if (!empty($mergeData)) {
+        $this->merge($mergeData);
+    }
+}
 }
