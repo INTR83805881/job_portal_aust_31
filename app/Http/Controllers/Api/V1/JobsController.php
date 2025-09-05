@@ -46,9 +46,40 @@ class JobsController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreJobsRequest $request)
-    {
-        //
+{
+    \Log::info('Raw request data:', $request->all());
+    
+    // Get validated data
+    $validated = $request->validated();
+    
+    // Manually add the converted fields
+    $validated['organization_id'] = $request->organizationId;
+    $validated['employment_type'] = $request->employmentType;
+    
+    \Log::info('Final data being inserted:', $validated);
+    
+    try {
+        $job = Jobs::create($validated);
+        \Log::info('Job created successfully:', $job->toArray());
+        
+        return response()->json([
+            'message' => 'Job created successfully',
+            'data' => new JobsResource($job)
+        ], 201);
+        
+    } catch (\Exception $e) {
+        \Log::error('Error details:', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]);
+        
+        return response()->json([
+            'error' => 'Job creation failed',
+            'message' => $e->getMessage()
+        ], 500);
     }
+}
 
     /**
      * Display the specified resource.
@@ -69,10 +100,45 @@ class JobsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJobsRequest $request, Jobs $jobs)
-    {
-        //
+    public function update(UpdateJobsRequest $request, Jobs $job)
+{
+    \Log::info('Raw update request data:', $request->all());
+    
+    // Get validated data
+    $validated = $request->validated();
+    
+    // Manually add the converted fields if they exist in the request
+    if ($request->has('organizationId')) {
+        $validated['organization_id'] = $request->organizationId;
     }
+    if ($request->has('employmentType')) {
+        $validated['employment_type'] = $request->employmentType;
+    }
+    
+    \Log::info('Final data being updated:', $validated);
+    
+    try {
+        $job->update($validated);
+        \Log::info('Job updated successfully:', $job->toArray());
+        
+        return response()->json([
+            'message' => 'Job updated successfully',
+            'data' => new JobsResource($job)
+        ], 200);
+        
+    } catch (\Exception $e) {
+        \Log::error('Error details:', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]);
+        
+        return response()->json([
+            'error' => 'Job update failed',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
 
     /**
      * Remove the specified resource from storage.

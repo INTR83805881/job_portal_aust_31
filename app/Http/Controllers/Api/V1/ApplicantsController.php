@@ -112,10 +112,19 @@ public function update(UpdateApplicantsRequest $request, Applicants $applicant)
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Applicants $applicants)
-    {
-        //
+    public function destroy(Applicants $applicant)
+{
+    \Log::info('Deleting applicant ID: ' . $applicant->id);
+
+    try {
+        $applicant->delete();
+        return response()->json(['message' => 'Applicant deleted successfully'], 200);
+    } catch (\Exception $e) {
+        \Log::error('Delete failed: ' . $e->getMessage());
+        return response()->json(['error' => 'Delete failed', 'details' => $e->getMessage()], 500);
     }
+}
+
 
     public function getFiles($applicantId)
 {

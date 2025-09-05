@@ -24,7 +24,7 @@ class StoreApplicantsRequest extends FormRequest
     {
         return [
             'userId' => ['required', 'exists:users,id'], // must correspond to an existing user
-             'name' => ['required', 'string', 'max:255'],
+            // 'name' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'qualification' => ['required', 'string', 'max:255'],
             //'skills' => ['required', 'array'], // JSON array

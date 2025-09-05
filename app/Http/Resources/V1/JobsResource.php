@@ -18,12 +18,14 @@ class JobsResource extends JsonResource
         [
             'id' => $this->id,
             'organizationId' => $this->organization_id,
-            'companyName' => $this->organization?->company_name, // include company name
-            'jobTitle' => $this->title,
+            'companyName' => $this->organization?->company_name,
+ // include company name
+            'title' => $this->title,
             'description' => $this->description,
             'location' => $this->location,
-            'jobType' => $this->employment_type,
+            'employmentType' => $this->employment_type,
             'salary' => $this->salary, // updated field
+            'deadline'=>$this->deadline,
              'jobSkillsets' => JobsSkillsetsResource::collection($this->whenLoaded('jobSkillsets')), // Eager loaded skills
         ];
     }
