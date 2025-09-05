@@ -16,7 +16,7 @@ class OrganizationContactsResource extends JsonResource
     {
         return [
             'id' => $this->id,
-           // 'organizationId' => $this->organization_id, // FK to organizations
+           'organizationId' => $this->organization_id, // FK to organizations(check organizations table)
             'type' => $this->type,                        // 'phone', 'email', or 'website'
             'value' => $this->value,                      // actual phone/email/website
         ];

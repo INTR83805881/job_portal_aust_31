@@ -17,15 +17,14 @@ class OrganizationsResource extends JsonResource
         return [
                 'id' => $this->id,
                 'userId' => $this->user->id,
-                'name' => $this->user->name,
-                'email' => $this->user->email,
-                'role' => $this->user->role,
-                'profilePicture' => $this->user->profile_picture,
+                //'name' => $this->user->name,
+                //'email' => $this->user->email,
+                //'role' => $this->user->role,
+                //'profilePicture' => $this->user->profile_picture,
             'companyName' => $this->company_name,
             'address' => $this->address,
             'contacts' => OrganizationContactsResource::collection($this->whenLoaded('contacts')),
             'jobs' => JobsResource::collection($this->whenLoaded('jobs')),
-            'jobSkillsets' => JobSkillsetsResource::collection($this->whenLoaded('jobSkillsets')),
             ];
     }
 }
