@@ -22,7 +22,7 @@ class Organizations extends Model
     protected $fillable = [
         'user_id',
         'company_name',
-        'website',  // primary website
+        //'website',  // primary website
         'address',
     ];
 
@@ -40,18 +40,18 @@ class Organizations extends Model
     public function contacts()
     {
         return $this->hasMany(Organization_contacts::class, 'organization_id')
-                    ->whereIn('type', ['phone', 'email']);
+                    ->whereIn('type', ['phone', 'email', 'website']);
     }
 
     /**
      * Additional websites stored in organization_contacts.
      */
-    public function websites()
+   /* public function websites()
     {
         return $this->hasMany(Organization_contacts::class, 'organization_id')
                     ->where('type', 'website');
     }
-
+*/
     /**
      * Jobs this organization has enlisted (available jobs).
      */

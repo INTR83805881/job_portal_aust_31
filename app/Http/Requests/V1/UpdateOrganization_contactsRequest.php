@@ -21,8 +21,42 @@ class UpdateOrganization_contactsRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+
+        $method = $this->method();
+
+        if($method=='PUT')
+        {
+              return [
+            'organizationId'=>['required', 'exists:organizations,id'],
+             'type' => ['required', Rule::in(['phone', 'email','website'])],
+             'value' => ['required', 'string', 'max:255'],
         ];
+        }
+        else if($method=='PATCH')
+        {
+            return 
+            [
+            'organizationId'=>['sometimes','required', 'exists:organizations,id'],
+             'type' => ['sometimes','required', Rule::in(['phone', 'email','website'])],
+             'value' => ['sometimes','required', 'string', 'max:255'],
+            ];
+        }
+
     }
+
+ protected function prepareForValidation(): void
+{
+    $mergeData = [];
+
+    // Map camelCase to snake_case for database
+    if ($this->filled('organizationId')) {
+        $mergeData['organization_id'] = $this->input('organizationId');
+    }
+    
+    if (!empty($mergeData)) {
+        $this->merge($mergeData);
+    }
+}
+
+
 }

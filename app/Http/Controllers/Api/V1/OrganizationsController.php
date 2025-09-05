@@ -34,8 +34,10 @@ class OrganizationsController extends Controller
         }
     }]);
 }
-            if($includeEnlistedJobs)
-                $organizations = $organizations->with('jobs'); // Eager load enlisted jobs if requested
+           if ($includeEnlistedJobs) {
+    $organizations = $organizations->with(['jobs.jobSkillsets.skill']);
+}
+ // Eager load enlisted jobs if requested
 
            return new OrganizationsCollection($organizations->paginate()->appends($request->query()));
 
@@ -55,7 +57,12 @@ class OrganizationsController extends Controller
      */
     public function store(StoreOrganizationsRequest $request)
     {
-        return new OrganizationsResource(Organizations::create($request->all()));
+         \Log::info('Storing new organization with data: ', $request->all());
+         
+
+          $organization = Organizations::create($request->validated());
+
+        return new OrganizationsResource($organization);
     }
 
     /**
@@ -77,9 +84,29 @@ class OrganizationsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrganizationsRequest $request, Organizations $organizations)
+    public function update(UpdateOrganizationsRequest $request, Organizations $organization)
     {
-        //
+       $validated = $request->validated();
+
+    \Log::info('Validated Data:', $validated); // check what’s coming here
+
+    if (empty($validated)) {
+        return response()->json([
+            'message' => 'No fields to update'
+        ], 400);
+    }
+
+    if(isset($validated['companyName'])) 
+    {
+       $validated['company_name'] = $validated['companyName'];
+       unset($validated['companyName']);
+    }
+
+     $organization->update($validated);
+
+     return new OrganizationsResource($organization);
+    
+
     }
 
     /**

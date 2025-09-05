@@ -11,7 +11,7 @@ class StoreOrganization_contactsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class StoreOrganization_contactsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'organizationId'=>['required', 'exists:organizations,id'],
+             'type' => ['required', Rule::in(['phone', 'email','website'])],
+             'value' => ['required', 'string', 'max:255'],
         ];
+    }
+     protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'organization_id' => $this->organizationId,
+        ]);
     }
 }

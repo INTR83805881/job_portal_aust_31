@@ -7,7 +7,6 @@ use App\Models\Organizations;
 use App\Models\Organization_contacts;
 use App\Models\Jobs;
 use App\Models\Skills;
-use App\Models\JobSkillset;
 
 class OrganizationsSeeder extends Seeder
 {
@@ -40,18 +39,17 @@ class OrganizationsSeeder extends Seeder
         // Get all skills
         $allSkills = Skills::all()->pluck('id')->toArray();
 
-        // Attach random skillsets to each job
+        // Attach random skillsets to each job using relationship
         foreach ($organizations as $organization) {
             foreach ($organization->jobs as $job) {
                 if (!empty($allSkills)) {
                     $skillsToAttach = collect($allSkills)->random(rand(1, 5))->toArray();
 
-                    foreach ($skillsToAttach as $skillId) {
-                        JobSkillset::create([
-                            'job_id'   => $job->id,
+                    $job->jobSkillsets()->createMany(
+                        collect($skillsToAttach)->map(fn ($skillId) => [
                             'skill_id' => $skillId,
-                        ]);
-                    }
+                        ])->toArray()
+                    );
                 }
             }
         }
