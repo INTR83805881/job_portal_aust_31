@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\JobsController;
+use App\Http\Controllers\Api\V1\ApplicantsController;
+use App\Http\Controllers\Api\V1\OrganizationsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -36,6 +39,10 @@ Route::group(['prefix' => 'v1','namespace'=>'App\Http\Controllers\Api\V1'], func
 
  Route::apiResource('skills', SkillsController::class);
  Route::get('/applicants/{id}/files', [ApplicantsController::class, 'getFiles']);
+
+Route::delete('/applicants/{id}', [ApplicantsController::class, 'destroy']);
+
+
 
     
     

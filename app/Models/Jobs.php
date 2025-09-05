@@ -24,7 +24,6 @@ class Jobs extends Model
         'salary',
         'employment_type',
         'deadline',
-        //'posted_at',
         'status',
     ];
 

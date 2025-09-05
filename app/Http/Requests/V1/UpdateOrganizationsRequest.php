@@ -36,7 +36,7 @@ class UpdateOrganizationsRequest extends FormRequest
         {
             return [
             'userId' => ['sometimes','required', 'exists:users,id'],
-            //'name' => ['sometimes','required', 'string', 'max:255'],
+            'name' => ['sometimes','required', 'string', 'max:255'],
             'companyName' => ['sometimes','required', 'string', 'max:255'],
             'address' => ['sometimes','required', 'string', 'max:255'],
         ];
@@ -55,6 +55,7 @@ protected function prepareForValidation(): void
     }
    if ($this->has('companyName')) {
     $mergeData['company_name'] = $this->input('companyName');
+    $mergeData['name'] = $this->input('companyName');
 }
 
  foreach (['address'] as $field) {

@@ -104,6 +104,12 @@ class OrganizationsController extends Controller
 
      $organization->update($validated);
 
+      if ($request->has('companyName')) {
+            $organization->user->update([
+                'name' => $request->companyName
+            ]);
+        }
+
      return new OrganizationsResource($organization);
     
 
