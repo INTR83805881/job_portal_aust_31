@@ -51,9 +51,9 @@ class ApplicantSkillsetController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(ApplicantSkillset $applicantSkillset)
+    public function show(ApplicantSkillset $applicant_skill)
     {
-        //
+        return new ApplicantSkillsetsResource($applicant_skill);
     }
 
     /**
@@ -67,10 +67,49 @@ class ApplicantSkillsetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateApplicantSkillsetRequest $request, ApplicantSkillset $applicantSkillset)
-    {
-        $applicantSkillset->update($request->all());
+    public function update(UpdateApplicantSkillsetRequest $request, ApplicantSkillset $applicant_skill)
+{
+    \Log::info('Raw update request data for ApplicantSkillset ID '.$applicant_skill->id.':', $request->all());
+
+    // Get validated data
+    $validated = $request->validated();
+
+    // Map camelCase fields to snake_case for DB columns
+    if ($request->has('applicantId')) {
+        $validated['applicant_id'] = $request->input('applicantId');
     }
+    if ($request->has('skillId')) {
+        $validated['skill_id'] = $request->input('skillId');
+    }
+
+    \Log::info('Final data being updated for ApplicantSkillset ID '.$applicant_skill->id.':', $validated);
+
+    try {
+        $applicant_skill->update($validated);
+        \Log::info('ApplicantSkillset updated successfully:', $applicant_skill->toArray());
+
+        // Refresh and eager load skill relationship for resource
+        $applicant_skill->refresh()->load('skill');
+
+        return response()->json([
+            'message' => 'ApplicantSkillset updated successfully',
+            'data' => new ApplicantSkillsetsResource($applicant_skill)
+        ], 200);
+
+    } catch (\Exception $e) {
+        \Log::error('ApplicantSkillset update failed:', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]);
+
+        return response()->json([
+            'error' => 'ApplicantSkillset update failed',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+}
+
 
     /**
      * Remove the specified resource from storage.

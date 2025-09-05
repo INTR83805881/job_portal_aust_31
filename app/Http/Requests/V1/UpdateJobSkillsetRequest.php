@@ -11,7 +11,7 @@ class UpdateJobSkillsetRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,39 @@ class UpdateJobSkillsetRequest extends FormRequest
      */
     public function rules(): array
     {
+        $method = $this->method();
+
+       if($method == 'PUT')
+       {
         return [
-            //
+           'jobId'=>['required', 'exists:jobs,id'],
+           'skillId'=>['required', 'exists:skills,id'],
         ];
+       }
+       else if($method == 'PATCH')
+       {
+        return [
+           'jobId'=>['sometimes','required', 'exists:jobs,id'],
+           'skillId'=>['sometimes','required', 'exists:skills,id'],
+        ];
+       }
+        
     }
+
+protected function prepareForValidation(): void
+{
+    $mergeData = [];
+
+    // Map camelCase to snake_case for database
+    if ($this->filled('jobId')) {
+        $mergeData['job_id'] = $this->input('jobId');
+    }
+    if ($this->filled('skillId')) {
+        $mergeData['skill_id'] = $this->input('skillId');
+    }
+
+    if (!empty($mergeData)) {
+        $this->merge($mergeData);
+    }
+}
 }

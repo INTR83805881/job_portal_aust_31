@@ -68,9 +68,11 @@ class OrganizationContactsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateOrganization_contactsRequest $request, Organization_contacts $organization_contacts)
+    public function update(UpdateOrganization_contactsRequest $request, Organization_contacts $organization_contact)
     {
-        //
+        $organization_contact->update($request->all());
+
+        return new OrganizationContactsResource($organization_contact);
     }
 
     /**

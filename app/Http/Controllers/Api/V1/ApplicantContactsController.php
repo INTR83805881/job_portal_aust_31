@@ -66,9 +66,11 @@ class ApplicantContactsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateApplicant_contactsRequest $request, Applicant_contacts $applicant_contacts)
+    public function update(UpdateApplicant_contactsRequest $request, Applicant_contacts $applicant_contact)
     {
-       $applicant_contacts->update($request->all());
+       $applicant_contact->update($request->all());
+
+        return new ApplicantContactsResource($applicant_contact);
     }
 
     /**
