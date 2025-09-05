@@ -44,16 +44,16 @@ class JobSkillsetController extends Controller
      */
     public function store(StoreJobSkillsetRequest $request)
     {
-        //
+        return new JobsSkillsetsResource(JobSkillset::create($request->all()));
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(JobSkillset $jobSkillset)
-    {
-        //
-    }
+   public function show(JobSkillset $job_skill)
+{
+    return new JobsSkillsetsResource($job_skill);
+}
 
     /**
      * Show the form for editing the specified resource.
@@ -66,9 +66,44 @@ class JobSkillsetController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateJobSkillsetRequest $request, JobSkillset $jobSkillset)
+    public function update(UpdateJobSkillsetRequest $request, JobSkillset $job_skill)
     {
-        //
+         \Log::info('Raw update request data for JobSkillset ID '.$job_skill->id.':', $request->all());
+
+    // Get validated data
+    $validated = $request->validated();
+
+    // Manually map camelCase fields to snake_case for DB columns
+    if ($request->has('jobId')) {
+        $validated['job_id'] = $request->jobId;
+    }
+    if ($request->has('skillId')) {
+        $validated['skill_id'] = $request->skillId;
+    }
+
+    \Log::info('Final data being updated for JobSkillset ID '.$job_skill->id.':', $validated);
+
+    try {
+        $job_skill->update($validated);
+        \Log::info('JobSkillset updated successfully:', $job_skill->toArray());
+
+        return response()->json([
+            'message' => 'JobSkillset updated successfully',
+            'data' => new JobsSkillsetsResource($job_skill)
+        ], 200);
+
+    } catch (\Exception $e) {
+        \Log::error('JobSkillset update failed:', [
+            'message' => $e->getMessage(),
+            'file' => $e->getFile(),
+            'line' => $e->getLine()
+        ]);
+
+        return response()->json([
+            'error' => 'JobSkillset update failed',
+            'message' => $e->getMessage()
+        ], 500);
+    }
     }
 
     /**

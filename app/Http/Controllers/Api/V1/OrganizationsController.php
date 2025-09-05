@@ -118,8 +118,16 @@ class OrganizationsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Organizations $organizations)
+    public function destroy(Organizations $organization)
     {
-        //
+       \Log::info('Deleting organization ID: ' . $organization->id);
+
+    try {
+        $organization->delete();
+        return response()->json(['message' => 'Organization deleted successfully'], 200);
+    } catch (\Exception $e) {
+        \Log::error('Delete failed: ' . $e->getMessage());
+        return response()->json(['error' => 'Delete failed', 'details' => $e->getMessage()], 500);
+    }
     }
 }

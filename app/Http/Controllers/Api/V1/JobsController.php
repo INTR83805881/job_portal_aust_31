@@ -143,8 +143,16 @@ class JobsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Jobs $jobs)
+    public function destroy(Jobs $job)
     {
-        //
+          \Log::info('Deleting job ID: ' . $job->id);
+
+    try {
+        $job->delete();
+        return response()->json(['message' => 'Job deleted successfully'], 200);
+    } catch (\Exception $e) {
+        \Log::error('Delete failed: ' . $e->getMessage());
+        return response()->json(['error' => 'Delete failed', 'details' => $e->getMessage()], 500);
+    }
     }
 }

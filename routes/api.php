@@ -5,6 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\JobsController;
 use App\Http\Controllers\Api\V1\ApplicantsController;
 use App\Http\Controllers\Api\V1\OrganizationsController;
+use App\Http\Controllers\Api\V1\ApplicantContactsController;
+use App\Http\Controllers\Api\V1\OrganizationContactsController;
+use App\Http\Controllers\Api\V1\JobCompletionsController;
+use App\Http\Controllers\Api\V1\ApplicantSkillsetController;
+use App\Http\Controllers\Api\V1\JobSkillsetController;
+use App\Http\Controllers\Api\V1\SkillsController;
+
 
 
 /*
@@ -38,10 +45,15 @@ Route::group(['prefix' => 'v1','namespace'=>'App\Http\Controllers\Api\V1'], func
      Route::apiResource('job_skills', JobSkillsetController::class);
 
  Route::apiResource('skills', SkillsController::class);
- Route::get('/applicants/{id}/files', [ApplicantsController::class, 'getFiles']);
+//Route::get('/applicants/{id}/files', [ApplicantsController::class, 'getFiles']);
 
 Route::delete('/applicants/{id}', [ApplicantsController::class, 'destroy']);
-
+Route::delete('/organizations/{id}', [OrganizationsController::class, 'destroy']);
+Route::delete('/jobs/{id}', [JobsController::class, 'destroy']);
+Route::delete('/applicant_contacts/{id}', [ApplicantContactsController::class, 'destroy']);
+Route::delete('/organization_contacts/{id}', [OrganizationContactsController::class, 'destroy']);
+Route::delete('job_skills/{id}', [JobSkillsetController::class, 'destroy']);
+Route::delete('applicant_skills/{id}', [ApplicantSkillsetController::class, 'destroy']);
 
 
     
