@@ -41,7 +41,7 @@ Route::get('/auth', function () {
     return view('auth.index');
 })->name('auth');
 
-Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
+//Route::get('/jobs/create', [JobController::class, 'create'])->name('jobs.create');
 
 // Login Routes
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -66,3 +66,12 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 Route::get('/jobs', [JobPageController::class, 'index'])->name('jobs.index');
 Route::post('/jobs/apply/{job}', [JobPageController::class, 'apply'])->middleware('auth')->name('jobs.apply');
+
+// Profile Page (custom view)
+Route::middleware('auth')->group(function () {
+    Route::get('/profile-page', function () {
+        return view('profile_page.index', [
+            'user' => auth()->user(),
+        ]);
+    })->name('profile.page');
+});
