@@ -11,6 +11,8 @@ use App\Http\Resources\V1\ApplicantsCollection; // Assuming you have a resource 
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use App\Filters\V1\ApplicantsFilter; // Assuming you have a filter class for applicants
+use Illuminate\Support\Facades\Log;
+
 
 class ApplicantsController extends Controller
 {
@@ -61,7 +63,7 @@ class ApplicantsController extends Controller
      */
     public function store(StoreApplicantsRequest $request)
     {
-        \Log::info('Storing new applicant with data: ', $request->all());
+        Log::info('Storing new applicant with data: ', $request->all());
        
         // Create the applicant
     $applicant = Applicants::create($request->validated());
@@ -91,7 +93,7 @@ public function update(UpdateApplicantsRequest $request, Applicants $applicant)
 {
     $validated = $request->validated();
 
-    \Log::info('Validated Data:', $validated); // check what’s coming here
+    Log::info('Validated Data:', $validated); // check what’s coming here
 
     if (empty($validated)) {
         return response()->json([
@@ -114,13 +116,13 @@ public function update(UpdateApplicantsRequest $request, Applicants $applicant)
      */
     public function destroy(Applicants $applicant)
 {
-    \Log::info('Deleting applicant ID: ' . $applicant->id);
+    Log::info('Deleting applicant ID: ' . $applicant->id);
 
     try {
         $applicant->delete();
         return response()->json(['message' => 'Applicant deleted successfully'], 200);
     } catch (\Exception $e) {
-        \Log::error('Delete failed: ' . $e->getMessage());
+        Log::error('Delete failed: ' . $e->getMessage());
         return response()->json(['error' => 'Delete failed', 'details' => $e->getMessage()], 500);
     }
 }
