@@ -21,16 +21,16 @@ class Applicaion_Form extends Model
     protected $fillable = [
         'job_id',
         'applicant_id',
-        'status',
-        'cover_letter',
-        'skills',
-        'resume',
-        'applied_at',
+        //'status',
+        //'cover_letter',
+        //'skills',
+        //'resume',
+        //'applied_at',
     ];
 
     protected $casts = [
-        'skills' => 'array',
-        'applied_at' => 'datetime',
+        //'skills' => 'array',
+        //'applied_at' => 'datetime',
     ];
 
     /**
