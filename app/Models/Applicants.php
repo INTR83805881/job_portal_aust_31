@@ -96,4 +96,10 @@ public function currentJobs()
     return $this->hasMany(ApplicantSkillset::class, 'applicant_id');
 }
 
+public function skills()
+{
+    return $this->belongsToMany(\App\Models\Skills::class, 'applicant_skillsets', 'applicant_id', 'skill_id');
+}
+
+
 }

@@ -7,6 +7,8 @@ use App\Models\Applicants;
 use App\Models\Organizations;
 use App\Models\Applicant_contacts;
 use App\Models\Organization_contacts;
+use App\Models\Skills;
+use App\Models\Applicant_skillsets;
 
 class ProfilePageController extends Controller
 {
@@ -213,5 +215,25 @@ class ProfilePageController extends Controller
 
         return redirect()->route('profile.page')->with('success', ucfirst(str_replace('_', ' ', $field)) . ' updated!');
     }
+
+public function storeApplicantSkill(Request $request)
+{
+    $request->validate([
+        'skill_id' => 'required|exists:skills,id',
+    ]);
+
+    $applicant = Applicants::where('user_id', auth()->id())->firstOrFail();
+
+    // Prevent duplicate skill
+    if ($applicant->skills()->where('skill_id', $request->skill_id)->exists()) {
+        return redirect()->route('profile.page')->with('error', 'Skill already added!');
+    }
+
+    $applicant->skills()->attach($request->skill_id);
+
+    return redirect()->route('profile.page')->with('success', 'Skill added!');
+}
+
+
 
 }

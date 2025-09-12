@@ -100,6 +100,34 @@
                 </form>
             </div>
         @endif
+
+        {{-- Skills --}}
+<div class="bg-gray-50 p-4 rounded mb-4">
+    <h3 class="text-xl font-semibold mb-2">Skills</h3>
+    <ul class="space-y-2 mb-4">
+        @foreach($applicant->skills as $skill)
+            <li class="flex items-center space-x-2">
+                <span class="value">{{ $skill->skill_name }}</span>
+            </li>
+        @endforeach
+    </ul>
+
+    {{-- Add New Skill --}}
+    <form method="POST" action="{{ route('profile.applicant.skill.store') }}" class="space-y-2">
+        @csrf
+        <div>
+            <label>Select Skill</label>
+            <select name="skill_id" class="w-full border rounded p-2" required>
+                <option value="">-- Choose Skill --</option>
+                @foreach(\App\Models\Skills::all() as $skill)
+                    <option value="{{ $skill->id }}">{{ $skill->skill_name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Skill</button>
+    </form>
+</div>
+
     @endif
 
 
