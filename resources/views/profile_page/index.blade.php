@@ -102,6 +102,10 @@
         @endif
     @endif
 
+
+
+
+
     {{-- Organization Section --}}
     @if($user->role === 'organization')
         @php $fields = ['company_name','address']; @endphp
@@ -126,6 +130,44 @@
                         </form>
                     </div>
                 @endforeach
+            </div>
+             {{-- Contacts --}}
+            <div class="bg-gray-50 p-4 rounded mb-4">
+                <h3 class="text-xl font-semibold mb-2">Contacts</h3>
+                <ul class="space-y-2 mb-4">
+                    @foreach($contacts as $contact)
+                        <li class="flex items-center space-x-2">
+                            <strong class="w-32">{{ ucfirst($contact->type) }}:</strong>
+                            <span class="value">{{ $contact->value }}</span>
+                            <button type="button" class="edit-btn bg-blue-500 text-white px-2 py-1 rounded text-sm">Edit</button>
+
+                            <form method="POST" action="{{ route('profile.organization.contact.update', $contact->id) }}" class="hidden inline-flex items-center space-x-2">
+                                @csrf
+                                @method('PATCH')
+                                <input type="hidden" name="field" value="value">
+                                <input type="text" name="value" class="border p-1 rounded w-60" value="{{ $contact->value }}">
+                                <button type="submit" class="bg-green-500 text-white px-2 py-1 rounded text-sm">Save</button>
+                            </form>
+                        </li>
+                    @endforeach
+                </ul>
+
+                {{-- Add New Contact --}}
+                <form method="POST" action="{{ route('profile.organization.contact.store') }}" class="space-y-2">
+                    @csrf
+                    <div>
+                        <label>Type</label>
+                        <select name="type" class="w-full border rounded p-2">
+                            <option value="phone">Phone</option>
+                            <option value="email">Email</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Value</label>
+                        <input type="text" name="value" class="w-full border rounded p-2" required>
+                    </div>
+                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Contact</button>
+                </form>
             </div>
         @else
             {{-- Full POST form for new organization --}}
