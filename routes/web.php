@@ -84,4 +84,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile-page/applicant/contact', [ProfilePageController::class, 'storeApplicantContact'])->name('profile.applicant.contact.store');
     Route::patch('/profile-page/applicant/contact/{id}', [ProfilePageController::class, 'updateApplicantContact'])->name('profile.applicant.contact.update');
 
+    Route::post('/profile-page/organization/contact', [ProfilePageController::class, 'storeOrganizationContact'])->name('profile.organization.contact.store');
+    Route::patch('/profile-page/organization/contact/{id}', [ProfilePageController::class, 'updateOrganizationContact'])->name('profile.organization.contact.update');
 });
