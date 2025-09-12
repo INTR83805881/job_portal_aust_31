@@ -15,11 +15,6 @@ return new class extends Migration
     $table->id();
     $table->foreignId('jobs_id')->constrained('jobs')->onDelete('cascade');
     $table->foreignId('applicant_id')->constrained('applicants')->onDelete('cascade');
-    $table->enum('status', ['pending', 'rejected'])->default('pending');
-    $table->text('cover_letter')->nullable();
-    $table->json('skills')->nullable();
-    $table->string('resume')->nullable(); 
-    $table->timestamp('applied_at')->useCurrent();
     $table->timestamps();
 });
     }
