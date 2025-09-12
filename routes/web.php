@@ -72,12 +72,16 @@ Route::post('/jobs/apply/{job}', [JobPageController::class, 'apply'])->middlewar
 
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile-page', [ProfilePageController::class, 'index'])->name('profile.page');
+   Route::get('/profile-page', [ProfilePageController::class, 'index'])->name('profile.page');
 
     Route::post('/profile-page/applicant', [ProfilePageController::class, 'storeApplicant'])->name('profile.applicant.store');
-    Route::post('/profile-page/organization', [ProfilePageController::class, 'storeOrganization'])->name('profile.organization.store');
+    Route::patch('/profile-page/applicant', [ProfilePageController::class, 'updateApplicant'])->name('profile.applicant.update');
 
-     Route::patch('/profile-page/applicant', [ProfilePageController::class, 'updateApplicant'])->name('profile.applicant.update');
-     Route::patch('/profile-page/organization', [ProfilePageController::class, 'updateOrganization'])->name('profile.organization.update');
+    Route::post('/profile-page/organization', [ProfilePageController::class, 'storeOrganization'])->name('profile.organization.store');
+    Route::patch('/profile-page/organization', [ProfilePageController::class, 'updateOrganization'])->name('profile.organization.update');
+
+    // Contacts
+    Route::post('/profile-page/applicant/contact', [ProfilePageController::class, 'storeApplicantContact'])->name('profile.applicant.contact.store');
+    Route::patch('/profile-page/applicant/contact/{id}', [ProfilePageController::class, 'updateApplicantContact'])->name('profile.applicant.contact.update');
 
 });
