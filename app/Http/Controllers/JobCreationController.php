@@ -77,4 +77,23 @@ class JobCreationController extends Controller
         return redirect()->route('job_creation.index')
             ->with('success', 'Job deleted successfully!');
     }
+
+public function storeJobSkill(Request $request, $id)
+{
+    $request->validate([
+        'skill_id' => 'required|exists:skills,id',
+    ]);
+
+    $organization = Organizations::where('user_id', auth()->id())->firstOrFail();
+    $job = Jobs::where('organization_id', $organization->id)->findOrFail($id);
+
+    // Prevent duplicate skill
+    if ($job->skills()->where('skill_id', $request->skill_id)->exists()) {
+        return redirect()->route('job_creation.index')->with('error', 'Skill already added!');
+    }
+
+    $job->skills()->attach($request->skill_id);
+
+    return redirect()->route('job_creation.index')->with('success', 'Skill added!');
+}
 }

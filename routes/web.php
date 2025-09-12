@@ -107,5 +107,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/job-creation/{id}', [JobCreationController::class, 'deleteJob'])
         ->name('job_creation.delete');
+
+    Route::post('/job-creation/{job}/skill', [JobCreationController::class, 'storeJobSkill'])
+    ->name('job_creation.skill.store');
+    //->middleware('auth');
 });
 

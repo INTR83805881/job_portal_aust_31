@@ -13,4 +13,8 @@ class Skills extends Model
 {
     return $this->belongsToMany(\App\Models\Applicants::class, 'applicant_skillsets', 'skill_id', 'applicant_id');
 }
+public function jobs()
+{
+    return $this->belongsToMany(\App\Models\Jobs::class, 'job_skillsets', 'skill_id', 'job_id');
+}
 }
