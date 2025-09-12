@@ -10,6 +10,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
+use App\Http\Controllers\JobCreationController;
 
 
 /*
@@ -91,3 +92,20 @@ Route::middleware('auth')->group(function () {
     ->name('profile.applicant.skill.store');
 
 });
+
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/job-creation', [JobCreationController::class, 'index'])
+        ->name('job_creation.index');
+
+    Route::post('/job-creation', [JobCreationController::class, 'storeJob'])
+        ->name('job_creation.store');
+
+    Route::patch('/job-creation/{id}', [JobCreationController::class, 'updateJob'])
+        ->name('job_creation.update');
+
+    Route::delete('/job-creation/{id}', [JobCreationController::class, 'deleteJob'])
+        ->name('job_creation.delete');
+});
+
