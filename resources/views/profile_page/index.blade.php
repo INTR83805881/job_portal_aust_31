@@ -101,7 +101,8 @@
             </div>
         @endif
 
-        {{-- Skills --}}
+ {{-- Skills --}}
+@if($applicant)
 <div class="bg-gray-50 p-4 rounded mb-4">
     <h3 class="text-xl font-semibold mb-2">Skills</h3>
     <ul class="space-y-2 mb-4">
@@ -127,6 +128,7 @@
         <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Skill</button>
     </form>
 </div>
+@endif
 
     @endif
 
