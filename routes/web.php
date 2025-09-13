@@ -11,6 +11,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
+use App\Http\Controllers\Web\JobViewController;
 
 
 /*
@@ -112,4 +113,6 @@ Route::middleware(['auth'])->group(function () {
     ->name('job_creation.skill.store');
     //->middleware('auth');
 });
+
+
 

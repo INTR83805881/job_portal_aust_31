@@ -40,21 +40,12 @@
                 <input id="location" type="text" class="w-full px-3 py-2 rounded-lg border border-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-200" placeholder="City / Location">
             </div>
 
-            <div class="flex items-center gap-2 ml-auto">
-                <div class="flex items-center gap-2">
-                    <input id="includeJobSkillsets" type="checkbox" class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500">
-                    <label for="includeJobSkillsets" class="text-sm text-slate-600">Include job skills</label>
-                </div>
-            </div>
-
             <div class="flex gap-2 w-full sm:w-auto mt-2">
                 <button id="applyFilters" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition">
-                    <svg class="w-4 h-4 opacity-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01.293.707l-7 8a1 1 0 01-.707.293H10a1 1 0 01-1-1V6a1 1 0 01-.293-.707L3 6.293V4z"/></svg>
                     Apply Filters
                 </button>
 
                 <button id="resetFilters" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-slate-200 text-sm text-slate-700 hover:bg-slate-50 transition">
-                    <svg class="w-4 h-4 opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v6h6M20 20v-6h-6M4 14a8 8 0 018-8" /></svg>
                     Reset
                 </button>
             </div>
@@ -94,9 +85,7 @@ async function fetchJobs(page = 1) {
     const params = new URLSearchParams();
     params.set('page', page);
     params.set('per_page', perPage);
-
-    const includeSkills = document.getElementById('includeJobSkillsets').checked;
-    if (includeSkills) params.set('includeJobSkillsets', 'true');
+    params.set('includeJobSkillsets', 'true');
 
     for (const [k, v] of Object.entries(filters)) {
         if (v) params.set(k, v);
@@ -106,10 +95,7 @@ async function fetchJobs(page = 1) {
     pagination.innerHTML = '';
 
     try {
-        const res = await fetch(`/api/v1/jobs?${params.toString()}`, {
-            headers: { 'Accept': 'application/json' }
-        });
-
+        const res = await fetch(`/api/v1/jobs?${params.toString()}`, { headers: { 'Accept': 'application/json' } });
         if (!res.ok) {
             let errText = res.statusText;
             try { const errJson = await res.json(); errText = errJson.message || JSON.stringify(errJson); } catch(e){}
@@ -120,7 +106,6 @@ async function fetchJobs(page = 1) {
         const payload = await res.json();
         renderJobs(payload.data || []);
         renderPagination(payload.meta || { total: 0, per_page: perPage, current_page: page, last_page: 1 });
-
     } catch (error) {
         jobList.innerHTML = `<div class="col-span-1 md:col-span-2 bg-white p-6 rounded-lg shadow-sm text-center text-red-600">Network error: ${escapeHtml(error.message)}</div>`;
     }
@@ -134,8 +119,13 @@ function renderJobs(jobs) {
     }
 
     for (const job of jobs) {
+        // Wrap entire card in a clickable link
+        const link = document.createElement('a');
+        link.href = `/jobs/view/${job.id}`;
+        link.className = 'block';
+
         const col = document.createElement('div');
-        col.className = 'bg-white rounded-lg p-5 shadow-sm hover:shadow-lg transition';
+        col.className = 'bg-white rounded-lg p-5 shadow-sm hover:shadow-lg transition cursor-pointer';
 
         const company = job.companyName ?? job.organizationId ?? 'N/A';
         const title = job.title ?? '';
@@ -178,7 +168,8 @@ function renderJobs(jobs) {
         footer.innerHTML = `<div>Job ID: ${escapeHtml(job.id ?? '')}</div><div>Deadline: ${escapeHtml(deadline)}</div>`;
         col.appendChild(footer);
 
-        jobList.appendChild(col);
+        link.appendChild(col);
+        jobList.appendChild(link);
     }
 }
 
@@ -258,7 +249,6 @@ resetFiltersBtn.addEventListener('click', () => {
     document.getElementById('jobType').value = '';
     document.getElementById('organizationId').value = '';
     document.getElementById('location').value = '';
-    document.getElementById('includeJobSkillsets').checked = false;
     filters = {};
     fetchJobs(1);
 });

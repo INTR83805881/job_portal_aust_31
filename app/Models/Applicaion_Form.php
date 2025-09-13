@@ -16,7 +16,7 @@ class Applicaion_Form extends Model
     use HasFactory;
 
 
-    protected $table = 'applicaion__forms';
+    protected $table = 'application_forms';
 
     protected $fillable = [
         'job_id',
@@ -60,14 +60,4 @@ class Applicaion_Form extends Model
     /**
      * Automatically get applicant info (skills, resume, cover letter) for this application.
      */
-    public function getApplicantInfoAttribute()
-    {
-        return [
-            'address' => $this->applicant->address ?? null,
-            'qualification' => $this->applicant->qualification ?? null,
-            'skills' => $this->applicant->skills ?? null,
-            'resume' => $this->applicant->resume ?? null,
-            'cover_letter' => $this->cover_letter ?? $this->applicant->cover_letter ?? null,
-        ];
-    }
 }
