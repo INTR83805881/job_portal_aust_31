@@ -11,6 +11,8 @@ use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
+use App\Http\Controllers\OrganizationCourseController;
+
 
 
 /*
@@ -106,6 +108,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/job-creation/{job}/skill', [JobCreationController::class, 'storeJobSkill'])
     ->name('job_creation.skill.store');
     //->middleware('auth');
+});
+
+Route::prefix('/')->group(function () {
+    Route::get('/organization-course', [OrganizationCourseController::class, 'index'])->name('organization_courses.index');
+    Route::get('/create', [OrganizationCourseController::class, 'create'])->name('organization_courses.create');
+    Route::post('/store', [OrganizationCourseController::class, 'store'])->name('organization_courses.store');
+    Route::get('/apply/{id}', [OrganizationCourseController::class, 'apply'])->name('organization_courses.apply');
 });
 
 
