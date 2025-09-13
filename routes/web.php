@@ -16,6 +16,10 @@ use App\Http\Controllers\OrganizationCourseController;
 use App\Http\Controllers\Web\JobActionController;
 use App\Http\Controllers\JobCartController;
 use App\Http\Controllers\Applications\AppliedJobsController;
+use App\Http\Controllers\MindController;
+
+
+
 
 
 
@@ -138,6 +142,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/applied-jobs', [AppliedJobsController::class, 'index'])->name('applied-jobs.index');
     Route::delete('/applied-jobs/remove/{id}', [AppliedJobsController::class, 'remove'])->name('applied-jobs.remove');
 });
+
+Route::get('/minds', [MindController::class, 'index'])->name('minds.index');
+Route::get('/create-minds', [MindController::class, 'create'])->name('minds.create');
+Route::post('/create-minds', [MindController::class, 'store'])->name('minds.store');
 
 
 
