@@ -18,21 +18,22 @@ class JobsController extends Controller
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
+    { 
         $filter = new JobsFilter();
-         $filterItems = $filter->transform($request);
+    $filterItems = $filter->transform($request);
 
-         $includeJobSkillsets = $request->query('includeJobSkillsets');
+    $includeJobSkillsets = $request->query('includeJobSkillsets');
 
-         $jobs = Jobs::where($filterItems);
+    // Always filter only 'enlisted' jobs
+    $jobsQuery = Jobs::where('status', 'enlisted')->where($filterItems);
 
-       if($includeJobSkillsets)
-            {
-                $jobs = $jobs->with('jobSkillsets.skill'); // Eager load skills if requested
-            }
-
-             return new JobsCollection($jobs->paginate()->appends($request->query()));
+    if ($includeJobSkillsets) {
+        $jobsQuery = $jobsQuery->with('jobSkillsets.skill'); // eager load skills
     }
+
+    return new JobsCollection($jobsQuery->paginate()->appends($request->query()));
+    
+}
 
     /**
      * Show the form for creating a new resource.

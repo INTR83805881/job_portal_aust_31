@@ -3,14 +3,21 @@
 @section('content')
 <div class="max-w-4xl mx-auto px-4 py-8">
     <div class="bg-white rounded-lg shadow-sm p-6">
+        {{-- Job Title --}}
         <h1 class="text-2xl font-bold mb-2">{{ $job->title }}</h1>
-        <p class="text-sm text-slate-500 mb-4">{{ $job->organization?->company_name ?? 'N/A' }}</p>
+        
+        {{-- Company Name --}}
+        <p class="text-sm text-slate-500 mb-4">
+            {{ $job->organization?->company_name ?? 'N/A' }}
+        </p>
 
+        {{-- Job Description --}}
         <div class="mb-4">
             <h2 class="font-semibold mb-1">Description</h2>
             <p class="text-slate-700">{{ $job->description }}</p>
         </div>
 
+        {{-- Job Info Grid --}}
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
                 <h3 class="font-semibold mb-1">Location</h3>
@@ -18,7 +25,7 @@
             </div>
             <div>
                 <h3 class="font-semibold mb-1">Employment Type</h3>
-                <p>{{ $job->employment_type }}</p>
+                <p>{{ ucfirst($job->employment_type) }}</p>
             </div>
             <div>
                 <h3 class="font-semibold mb-1">Salary</h3>
@@ -30,12 +37,13 @@
             </div>
         </div>
 
+        {{-- Skills Required --}}
         <div class="mb-4">
             <h3 class="font-semibold mb-2">Skills Required</h3>
             <div class="flex flex-wrap gap-2">
-                @forelse($job->jobSkillsets as $skill)
+                @forelse($job->jobSkillsets as $jobSkill)
                     <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-800">
-                        {{ $skill->skill_name }}
+                        {{ $jobSkill->skill?->skill_name ?? 'Unnamed Skill' }}
                     </span>
                 @empty
                     <span class="text-xs px-2 py-1 rounded-full bg-slate-100 text-slate-500">
@@ -44,6 +52,6 @@
                 @endforelse
             </div>
         </div>
-    </div>
-</div>
+
+        
 @endsection

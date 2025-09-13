@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class JobCart extends Model
 {
     use HasFactory;
+
+     protected $table = 'job_carts';
+
+    protected $fillable = [
+        'job_id',
+        'applicant_id',
+        
+    ];
+
+    public function applicant()
+    {
+        return $this->belongsTo(Applicants::class, 'applicant_id');
+    }
+
+    /**
+     * The job this application is for.
+     */
+    public function job()
+    {
+        return $this->belongsTo(Jobs::class, 'job_id');
+    }
+    
 }

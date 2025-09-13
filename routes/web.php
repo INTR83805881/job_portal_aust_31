@@ -67,7 +67,8 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 });
 
 Route::get('/jobs', [JobPageController::class, 'index'])->name('jobs.index');
-Route::post('/jobs/apply/{job}', [JobPageController::class, 'apply'])->middleware('auth')->name('jobs.apply');
+Route::get('/jobs/view/{id}', [JobViewController::class, 'show'])->name('jobs.view');
+
 
 // Profile Page (custom view)
 // routes/web.php

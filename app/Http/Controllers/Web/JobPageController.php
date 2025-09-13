@@ -13,18 +13,18 @@ class JobPageController extends Controller
      */
     public function index(Request $request)
     {
-         $user = $request->user();
+        $user = $request->user();
 
         // If logged-in user is an organization, redirect to job creation
         if ($user && $user->role === 'organization') {
             return redirect()->route('job_creation.index')
                 ->with('error', 'Organizations cannot view job listings. You can create jobs here.');
         }
-        // Fetch all jobs, include organization relation for company name
-        $jobs = Jobs::with('organization')->paginate(10);
 
-        // If you want to debug what jobs are being fetched, uncomment:
-        // dd($jobs);
+        // Fetch only jobs with status 'enlisted', include organization relation
+        $jobs = Jobs::with('organization')
+                    ->where('status', 'enlisted')
+                    ->paginate(10);
 
         return view('jobs.index', compact('jobs'));
     }
