@@ -20,4 +20,6 @@ class JobViewController extends Controller
 
         return view('job_view.index', compact('job'));
     }
+
+    
 }

@@ -12,7 +12,7 @@ class JobCart extends Model
      protected $table = 'job_carts';
 
     protected $fillable = [
-        'job_id',
+        'jobs_id',
         'applicant_id',
         
     ];
@@ -27,7 +27,7 @@ class JobCart extends Model
      */
     public function job()
     {
-        return $this->belongsTo(Jobs::class, 'job_id');
+        return $this->belongsTo(Jobs::class, 'jobs_id');
     }
     
 }

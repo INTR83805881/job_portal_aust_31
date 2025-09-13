@@ -11,7 +11,11 @@ use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
+
 use App\Http\Controllers\OrganizationCourseController;
+use App\Http\Controllers\Web\JobActionController;
+use App\Http\Controllers\JobCartController;
+use App\Http\Controllers\Applications\AppliedJobsController;
 
 
 
@@ -108,7 +112,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/job-creation/{job}/skill', [JobCreationController::class, 'storeJobSkill'])
     ->name('job_creation.skill.store');
     //->middleware('auth');
+     Route::post('/jobs/apply', [JobActionController::class, 'apply'])->name('jobs.apply');
+    Route::post('/jobs/add-to-cart', [JobActionController::class, 'addToCart'])->name('jobs.addToCart');
 });
+
 
 Route::prefix('/')->group(function () {
     Route::get('/organization-course', [OrganizationCourseController::class, 'index'])->name('organization_courses.index');
@@ -116,6 +123,22 @@ Route::prefix('/')->group(function () {
     Route::post('/store', [OrganizationCourseController::class, 'store'])->name('organization_courses.store');
     Route::get('/apply/{id}', [OrganizationCourseController::class, 'apply'])->name('organization_courses.apply');
 });
+
+Route::middleware('auth')->group(function () {
+
+    // Job Cart - view & remove
+    Route::get('/job-cart', [\App\Http\Controllers\Web\JobCartController::class, 'index'])->name('job-cart.index');
+    Route::delete('/job-cart/remove/{id}', [\App\Http\Controllers\Web\JobCartController::class, 'remove'])->name('job-cart.remove');
+
+    // Job Cart - apply
+    Route::post('/job-cart/apply/{job}', [\App\Http\Controllers\Web\JobCartActionController::class, 'apply'])->name('job-cart.apply');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/applied-jobs', [AppliedJobsController::class, 'index'])->name('applied-jobs.index');
+    Route::delete('/applied-jobs/remove/{id}', [AppliedJobsController::class, 'remove'])->name('applied-jobs.remove');
+});
+
 
 
 
