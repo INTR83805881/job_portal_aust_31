@@ -50,20 +50,8 @@ class Jobs extends Model
         return $this->hasMany(Application_Form::class, 'job_id');
     }
 
-    /**
-     * Interviews scheduled for this job through applications.
-     */
-    public function interviews()
-    {
-        return $this->hasManyThrough(
-            Interview::class,
-            Application_Form::class,
-            'job_id',          // Foreign key on applications table
-            'application_id',  // Foreign key on interviews table
-            'id',              // Local key on jobs table
-            'id'               // Local key on applications table
-        );
-    }
+  
+  
        public function jobSkillsets()
 {
     return $this->hasMany(JobSkillset::class, 'job_id');
