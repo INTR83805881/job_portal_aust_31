@@ -23,8 +23,8 @@ class ApplicantsFactory extends Factory
             'address' => $this->faker->address,
             'qualification' => $this->faker->word,
             //'skills' => $this->faker->words(3, true),
-            'resume' => 'resumes/' . $this->faker->uuid() . '.pdf',
-            'cover_letter' => 'covers/' . $this->faker->uuid() . '.pdf',
+           'resume' => null, // no dummy resume
+        'cover_letter' => null, // no dummy cover letter
         ];
     }
 

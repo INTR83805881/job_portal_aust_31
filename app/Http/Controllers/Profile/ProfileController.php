@@ -7,6 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Applicants;
 use App\Models\Organizations;
 
+// Import sub-controllers
+use App\Http\Controllers\Profile\ApplicantResumeController;
+use App\Http\Controllers\Profile\ApplicantCoverLetterController;
+
 class ProfileController extends Controller
 {
     public function index(Request $request)
@@ -39,8 +43,6 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'address' => 'required|string|max:255',
             'qualification' => 'required|string|max:255',
-            'resume' => 'nullable|string|max:255',
-            'cover_letter' => 'nullable|string|max:255',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -66,26 +68,33 @@ class ProfileController extends Controller
 
     public function updateApplicant(Request $request)
     {
-        $applicant = Applicants::where('user_id', $request->user()->id)->firstOrFail();
+        $applicant = Applicants::where('user_id', auth()->id())->firstOrFail();
 
         $field = $request->input('field');
-        $value = $request->input('value');
 
+        // Delegate resume or cover letter to sub-controllers
+        if ($field === 'resume') {
+            $controller = new ApplicantResumeController();
+            return $controller->update($request);
+        }
+
+        if ($field === 'cover_letter') {
+            $controller = new ApplicantCoverLetterController();
+            return $controller->update($request);
+        }
+
+        // Normal field updates
+        $value = $request->input('value');
         $rules = [
             'address' => 'required|string|max:255',
             'qualification' => 'required|string|max:255',
-            'resume' => 'nullable|string|max:255',
-            'cover_letter' => 'nullable|string|max:255',
         ];
 
         if (!array_key_exists($field, $rules)) {
             return back()->with('error', 'Invalid field.');
         }
 
-        $request->validate([
-            'value' => $rules[$field]
-        ]);
-
+        $request->validate(['value' => $rules[$field]]);
         $applicant->update([$field => $value]);
 
         return redirect()->route('profile.page')->with('success', ucfirst(str_replace('_',' ',$field)) . ' updated!');
@@ -93,7 +102,7 @@ class ProfileController extends Controller
 
     public function updateOrganization(Request $request)
     {
-        $organization = Organizations::where('user_id', $request->user()->id)->firstOrFail();
+        $organization = Organizations::where('user_id', auth()->id())->firstOrFail();
 
         $field = $request->input('field');
         $value = $request->input('value');
@@ -107,12 +116,34 @@ class ProfileController extends Controller
             return back()->with('error', 'Invalid field.');
         }
 
-        $request->validate([
-            'value' => $rules[$field]
-        ]);
-
+        $request->validate(['value' => $rules[$field]]);
         $organization->update([$field => $value]);
 
         return redirect()->route('profile.page')->with('success', ucfirst(str_replace('_',' ',$field)) . ' updated!');
+    }
+
+    // Optional: view/download shortcuts via ProfileController
+    public function viewResume()
+    {
+        $controller = new ApplicantResumeController();
+        return $controller->view();
+    }
+
+    public function downloadResume()
+    {
+        $controller = new ApplicantResumeController();
+        return $controller->download();
+    }
+
+    public function viewCoverLetter()
+    {
+        $controller = new ApplicantCoverLetterController();
+        return $controller->view();
+    }
+
+    public function downloadCoverLetter()
+    {
+        $controller = new ApplicantCoverLetterController();
+        return $controller->download();
     }
 }

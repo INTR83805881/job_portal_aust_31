@@ -15,7 +15,7 @@
 
     {{-- Applicant Section --}}
     @if($user->role === 'applicant')
-        @php $fields = ['address','qualification','resume','cover_letter']; @endphp
+        @php $fields = ['address','qualification']; @endphp
 
         {{-- Applicant Profile --}}
         @if($applicant)
@@ -38,7 +38,63 @@
                         </form>
                     </div>
                 @endforeach
-            </div>
+
+{{-- Resume --}}
+<div class="mb-4 p-4 bg-white shadow rounded-lg border border-gray-200 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <div>
+            <p class="font-semibold text-gray-700">Resume</p>
+            @if($applicant->resume)
+                <p class="text-sm text-green-600">Uploaded</p>
+            @else
+                <p class="text-sm text-gray-400">Not uploaded</p>
+            @endif
+        </div>
+    </div>
+    <div class="flex items-center space-x-2">
+        @if($applicant->resume)
+            <a href="{{ route('profile.applicant.resume.view') }}" target="_blank" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded shadow text-sm transition">View</a>
+            <a href="{{ route('profile.applicant.resume.download') }}" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded shadow text-sm transition">Download</a>
+        @endif
+        <form method="POST" action="{{ route('profile.applicant.resume.update') }}" enctype="multipart/form-data" class="flex items-center space-x-2">
+            @csrf
+            <input type="file" name="resume" accept="application/pdf" class="border rounded p-1 text-sm">
+            <button type="submit" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm shadow transition">Upload</button>
+        </form>
+    </div>
+</div>
+
+{{-- Cover Letter --}}
+<div class="mb-4 p-4 bg-white shadow rounded-lg border border-gray-200 flex items-center justify-between">
+    <div class="flex items-center space-x-4">
+        <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 4h2a2 2 0 012 2v12a2 2 0 01-2 2h-2M8 4H6a2 2 0 00-2 2v12a2 2 0 002 2h2m0-16v16m8-8H8"/>
+        </svg>
+        <div>
+            <p class="font-semibold text-gray-700">Cover Letter</p>
+            @if($applicant->cover_letter)
+                <p class="text-sm text-green-600">Uploaded</p>
+            @else
+                <p class="text-sm text-gray-400">Not uploaded</p>
+            @endif
+        </div>
+    </div>
+    <div class="flex items-center space-x-2">
+        @if($applicant->cover_letter)
+            <a href="{{ route('profile.applicant.cover_letter.view') }}" target="_blank" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded shadow text-sm transition">View</a>
+            <a href="{{ route('profile.applicant.cover_letter.download') }}" class="px-3 py-1 bg-green-500 hover:bg-green-600 text-white rounded shadow text-sm transition">Download</a>
+        @endif
+        <form method="POST" action="{{ route('profile.applicant.cover_letter.update') }}" enctype="multipart/form-data" class="flex items-center space-x-2">
+            @csrf
+            <input type="file" name="cover_letter" accept="application/pdf" class="border rounded p-1 text-sm">
+            <button type="submit" class="px-3 py-1 bg-blue-500 hover:bg-blue-600 text-white rounded text-sm shadow transition">Upload</button>
+        </form>
+    </div>
+</div>
+
 
             {{-- Contacts --}}
             <div class="bg-gray-50 p-4 rounded mb-4">
@@ -78,63 +134,58 @@
                     <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Contact</button>
                 </form>
             </div>
+
         @else
             {{-- Full POST form for new applicant --}}
-            <div class="bg-yellow-100 p-4 rounded mb-4">
-                <h3 class="text-lg font-semibold mb-2">Create Applicant Profile</h3>
-                <form method="POST" action="{{ route('profile.applicant.store') }}">
-                    @csrf
-                    <div class="mb-2"><label>Address</label>
-                        <input type="text" name="address" class="w-full border rounded p-2" required>
-                    </div>
-                    <div class="mb-2"><label>Qualification</label>
-                        <input type="text" name="qualification" class="w-full border rounded p-2" required>
-                    </div>
-                    <div class="mb-2"><label>Resume</label>
-                        <input type="text" name="resume" class="w-full border rounded p-2">
-                    </div>
-                    <div class="mb-2"><label>Cover Letter</label>
-                        <input type="text" name="cover_letter" class="w-full border rounded p-2">
-                    </div>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
-                </form>
-            </div>
-        @endif
-
- {{-- Skills --}}
-@if($applicant)
-<div class="bg-gray-50 p-4 rounded mb-4">
-    <h3 class="text-xl font-semibold mb-2">Skills</h3>
-    <ul class="space-y-2 mb-4">
-        @foreach($applicant->skills as $skill)
-            <li class="flex items-center space-x-2">
-                <span class="value">{{ $skill->skill_name }}</span>
-            </li>
-        @endforeach
-    </ul>
-
-    {{-- Add New Skill --}}
-    <form method="POST" action="{{ route('profile.applicant.skill.store') }}" class="space-y-2">
+           {{-- Full POST form for new applicant --}}
+<div class="bg-yellow-100 p-4 rounded mb-4">
+    <h3 class="text-lg font-semibold mb-2">Create Applicant Profile</h3>
+    <form method="POST" action="{{ route('profile.applicant.store') }}">
         @csrf
-        <div>
-            <label>Select Skill</label>
-            <select name="skill_id" class="w-full border rounded p-2" required>
-                <option value="">-- Choose Skill --</option>
-                @foreach(\App\Models\Skills::all() as $skill)
-                    <option value="{{ $skill->id }}">{{ $skill->skill_name }}</option>
-                @endforeach
-            </select>
+        <div class="mb-2">
+            <label>Address</label>
+            <input type="text" name="address" class="w-full border rounded p-2" required>
         </div>
-        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Skill</button>
+        <div class="mb-2">
+            <label>Qualification</label>
+            <input type="text" name="qualification" class="w-full border rounded p-2" required>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Save</button>
     </form>
 </div>
-@endif
+
+        @endif
+
+        {{-- Skills --}}
+        @if($applicant)
+        <div class="bg-gray-50 p-4 rounded mb-4">
+            <h3 class="text-xl font-semibold mb-2">Skills</h3>
+            <ul class="space-y-2 mb-4">
+                @foreach($applicant->skills as $skill)
+                    <li class="flex items-center space-x-2">
+                        <span class="value">{{ $skill->skill_name }}</span>
+                    </li>
+                @endforeach
+            </ul>
+
+            {{-- Add New Skill --}}
+            <form method="POST" action="{{ route('profile.applicant.skill.store') }}" class="space-y-2">
+                @csrf
+                <div>
+                    <label>Select Skill</label>
+                    <select name="skill_id" class="w-full border rounded p-2" required>
+                        <option value="">-- Choose Skill --</option>
+                        @foreach(\App\Models\Skills::all() as $skill)
+                            <option value="{{ $skill->id }}">{{ $skill->skill_name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Add Skill</button>
+            </form>
+        </div>
+        @endif
 
     @endif
-
-
-
-
 
     {{-- Organization Section --}}
     @if($user->role === 'organization')
@@ -161,7 +212,8 @@
                     </div>
                 @endforeach
             </div>
-             {{-- Contacts --}}
+
+            {{-- Contacts --}}
             <div class="bg-gray-50 p-4 rounded mb-4">
                 <h3 class="text-xl font-semibold mb-2">Contacts</h3>
                 <ul class="space-y-2 mb-4">
