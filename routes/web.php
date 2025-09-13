@@ -114,14 +114,12 @@ Route::middleware(['auth'])->group(function () {
 
 Route::middleware('auth')->group(function () {
 
-    // Job Cart
-    Route::get('/job-cart', [JobCartController::class, 'index'])->name('job-cart.index');
+    // Job Cart - view & remove
+    Route::get('/job-cart', [\App\Http\Controllers\Web\JobCartController::class, 'index'])->name('job-cart.index');
+    Route::delete('/job-cart/remove/{id}', [\App\Http\Controllers\Web\JobCartController::class, 'remove'])->name('job-cart.remove');
 
-    // Remove job from cart
-    Route::delete('/job-cart/remove/{id}', [JobCartController::class, 'remove'])->name('job-cart.remove');
-
-    // Apply for job from cart
-    Route::post('/job-cart/apply/{job}', [JobCartController::class, 'apply'])->name('job-cart.apply');
+    // Job Cart - apply
+    Route::post('/job-cart/apply/{job}', [\App\Http\Controllers\Web\JobCartActionController::class, 'apply'])->name('job-cart.apply');
 });
 
 
