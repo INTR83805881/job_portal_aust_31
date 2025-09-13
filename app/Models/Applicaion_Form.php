@@ -48,16 +48,4 @@ class Applicaion_Form extends Model
     {
         return $this->belongsTo(Jobs::class, 'job_id');
     }
-
-    /**
-     * The interview associated with this application.
-     */
-    public function interview()
-    {
-        return $this->hasOne(Interview::class, 'application_id');
-    }
-
-    /**
-     * Automatically get applicant info (skills, resume, cover letter) for this application.
-     */
 }
