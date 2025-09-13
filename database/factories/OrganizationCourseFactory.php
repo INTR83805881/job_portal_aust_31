@@ -17,6 +17,7 @@ class OrganizationCourseFactory extends Factory
             'applicant_id' => Applicants::inRandomOrder()->first()?->id ?? Applicants::factory(),
             'organization_id' => Organizations::inRandomOrder()->first()?->id ?? Organizations::factory(),
             'course_name' => $this->faker->sentence(3),
+            'course_title' => $this->faker->sentence(2), // Added required field
             'course_description' => $this->faker->paragraph(),
             'applied' => $this->faker->boolean(30),
         ];
