@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
+use App\Http\Controllers\Web\JobActionController;
 
 
 /*
@@ -106,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/job-creation/{job}/skill', [JobCreationController::class, 'storeJobSkill'])
     ->name('job_creation.skill.store');
     //->middleware('auth');
+     Route::post('/jobs/apply', [JobActionController::class, 'apply'])->name('jobs.apply');
+    Route::post('/jobs/add-to-cart', [JobActionController::class, 'addToCart'])->name('jobs.addToCart');
 });
 
 

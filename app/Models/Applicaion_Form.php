@@ -19,18 +19,12 @@ class Applicaion_Form extends Model
     protected $table = 'application_forms';
 
     protected $fillable = [
-        'job_id',
+        'jobs_id',
         'applicant_id',
-        //'status',
-        //'cover_letter',
-        //'skills',
-        //'resume',
-        //'applied_at',
+       
     ];
 
     protected $casts = [
-        //'skills' => 'array',
-        //'applied_at' => 'datetime',
     ];
 
     /**
@@ -46,6 +40,6 @@ class Applicaion_Form extends Model
      */
     public function job()
     {
-        return $this->belongsTo(Jobs::class, 'job_id');
+        return $this->belongsTo(Jobs::class, 'jobs_id');
     }
 }
