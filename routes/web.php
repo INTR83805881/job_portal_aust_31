@@ -18,6 +18,8 @@ use App\Http\Controllers\JobCartController;
 use App\Http\Controllers\Applications\AppliedJobsController;
 use App\Http\Controllers\MindController;
 use App\Http\Controllers\Applications\AppliedCandidatesController;
+use App\Http\Controllers\Profile\ApplicantResumeController;
+use App\Http\Controllers\Profile\ApplicantCoverLetterController;
 
 
 
@@ -76,11 +78,13 @@ Route::get('/jobs/view/{id}', [JobViewController::class, 'show'])->name('jobs.vi
 
 
 Route::middleware('auth')->group(function () {
-   Route::get('/profile-page', [ProfilePageController::class, 'index'])->name('profile.page');
+    Route::get('/profile-page', [ProfilePageController::class, 'index'])->name('profile.page');
 
+    // Applicant profile
     Route::post('/profile-page/applicant', [ProfilePageController::class, 'storeApplicant'])->name('profile.applicant.store');
     Route::patch('/profile-page/applicant', [ProfilePageController::class, 'updateApplicant'])->name('profile.applicant.update');
 
+    // Organization profile
     Route::post('/profile-page/organization', [ProfilePageController::class, 'storeOrganization'])->name('profile.organization.store');
     Route::patch('/profile-page/organization', [ProfilePageController::class, 'updateOrganization'])->name('profile.organization.update');
 
@@ -91,9 +95,23 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile-page/organization/contact', [ProfilePageController::class, 'storeOrganizationContact'])->name('profile.organization.contact.store');
     Route::patch('/profile-page/organization/contact/{id}', [ProfilePageController::class, 'updateOrganizationContact'])->name('profile.organization.contact.update');
 
+    // Applicant Skills
     Route::post('/profile/applicant/skills/store', [ProfilePageController::class, 'storeApplicantSkill'])
-    ->name('profile.applicant.skill.store');
+        ->name('profile.applicant.skill.store');
 
+    // -----------------------------
+    // Resume routes
+    // -----------------------------
+    Route::post('/profile/applicant/resume', [ApplicantResumeController::class, 'update'])->name('profile.applicant.resume.update');
+    Route::get('/profile/applicant/resume/view', [ApplicantResumeController::class, 'view'])->name('profile.applicant.resume.view');
+    Route::get('/profile/applicant/resume/download', [ApplicantResumeController::class, 'download'])->name('profile.applicant.resume.download');
+
+    // -----------------------------
+    // Cover Letter routes
+    // -----------------------------
+    Route::post('/profile/applicant/cover-letter', [ApplicantCoverLetterController::class, 'update'])->name('profile.applicant.cover_letter.update');
+    Route::get('/profile/applicant/cover-letter/view', [ApplicantCoverLetterController::class, 'view'])->name('profile.applicant.cover_letter.view');
+    Route::get('/profile/applicant/cover-letter/download', [ApplicantCoverLetterController::class, 'download'])->name('profile.applicant.cover_letter.download');
 });
 
 

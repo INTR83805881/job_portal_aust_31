@@ -17,8 +17,8 @@ return new class extends Migration
              $table->string('address');// Applicant's address
              $table->string('qualification'); // Applicant's qualification
              // $table->json('skills'); // Applicant's skills stored as JSON
-            $table->string('resume')->nullable(); // Path to the applicant's resume
-            $table->string('cover_letter')->nullable(); // Path to the applicant's cover letter
+            $table->binary('resume',255)->nullable(); // Store PDF as BLOB
+        $table->binary('cover_letter',255)->nullable(); // Store PDF as BLOB
             $table->timestamps();
         });
     }
