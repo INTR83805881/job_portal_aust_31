@@ -31,6 +31,7 @@ class Jobs extends Model
         //'requirements' => 'array', // if you store as JSON
         //'posted_at' => 'datetime',
         'deadline' => 'date',
+        'embedding' => 'array',
     ];
 
     /**
