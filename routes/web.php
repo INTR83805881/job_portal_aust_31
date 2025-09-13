@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
 use App\Http\Controllers\Web\JobActionController;
+use App\Http\Controllers\JobCartController;
 
 
 /*
@@ -109,6 +110,18 @@ Route::middleware(['auth'])->group(function () {
     //->middleware('auth');
      Route::post('/jobs/apply', [JobActionController::class, 'apply'])->name('jobs.apply');
     Route::post('/jobs/add-to-cart', [JobActionController::class, 'addToCart'])->name('jobs.addToCart');
+});
+
+Route::middleware('auth')->group(function () {
+
+    // Job Cart
+    Route::get('/job-cart', [JobCartController::class, 'index'])->name('job-cart.index');
+
+    // Remove job from cart
+    Route::delete('/job-cart/remove/{id}', [JobCartController::class, 'remove'])->name('job-cart.remove');
+
+    // Apply for job from cart
+    Route::post('/job-cart/apply/{job}', [JobCartController::class, 'apply'])->name('job-cart.apply');
 });
 
 
