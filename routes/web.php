@@ -13,6 +13,7 @@ use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
 use App\Http\Controllers\Web\JobActionController;
 use App\Http\Controllers\JobCartController;
+use App\Http\Controllers\Applications\AppliedJobsController;
 
 
 /*
@@ -121,6 +122,12 @@ Route::middleware('auth')->group(function () {
     // Job Cart - apply
     Route::post('/job-cart/apply/{job}', [\App\Http\Controllers\Web\JobCartActionController::class, 'apply'])->name('job-cart.apply');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/applied-jobs', [AppliedJobsController::class, 'index'])->name('applied-jobs.index');
+    Route::delete('/applied-jobs/remove/{id}', [AppliedJobsController::class, 'remove'])->name('applied-jobs.remove');
+});
+
 
 
 
