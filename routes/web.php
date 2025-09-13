@@ -16,6 +16,7 @@ use App\Http\Controllers\OrganizationCourseController;
 use App\Http\Controllers\Web\JobActionController;
 use App\Http\Controllers\JobCartController;
 use App\Http\Controllers\Applications\AppliedJobsController;
+use App\Http\Controllers\Applications\AppliedCandidatesController;
 
 
 
@@ -139,6 +140,11 @@ Route::middleware('auth')->group(function () {
     Route::delete('/applied-jobs/remove/{id}', [AppliedJobsController::class, 'remove'])->name('applied-jobs.remove');
 });
 
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/applied-candidates', [AppliedCandidatesController::class, 'index'])
+        ->name('applied.candidates.index');
+});
 
 
 
