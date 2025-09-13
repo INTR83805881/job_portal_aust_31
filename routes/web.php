@@ -11,9 +11,12 @@ use App\Http\Controllers\Web\JobPageController;
 use App\Http\Controllers\ProfilePageController;
 use App\Http\Controllers\JobCreationController;
 use App\Http\Controllers\Web\JobViewController;
+
+use App\Http\Controllers\OrganizationCourseController;
 use App\Http\Controllers\Web\JobActionController;
 use App\Http\Controllers\JobCartController;
 use App\Http\Controllers\Applications\AppliedJobsController;
+
 
 
 /*
@@ -111,6 +114,14 @@ Route::middleware(['auth'])->group(function () {
     //->middleware('auth');
      Route::post('/jobs/apply', [JobActionController::class, 'apply'])->name('jobs.apply');
     Route::post('/jobs/add-to-cart', [JobActionController::class, 'addToCart'])->name('jobs.addToCart');
+});
+
+
+Route::prefix('/')->group(function () {
+    Route::get('/organization-course', [OrganizationCourseController::class, 'index'])->name('organization_courses.index');
+    Route::get('/create', [OrganizationCourseController::class, 'create'])->name('organization_courses.create');
+    Route::post('/store', [OrganizationCourseController::class, 'store'])->name('organization_courses.store');
+    Route::get('/apply/{id}', [OrganizationCourseController::class, 'apply'])->name('organization_courses.apply');
 });
 
 Route::middleware('auth')->group(function () {
