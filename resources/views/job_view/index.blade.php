@@ -53,5 +53,31 @@
             </div>
         </div>
 
+        {{-- Buttons --}}
+<div class="mt-6 flex gap-3">
+    <form action="{{ route('jobs.apply') }}" method="POST">
+        @csrf
+        <input type="hidden" name="job_id" value="{{ $job->id }}">
+        <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+            Apply
+        </button>
+    </form>
+
+    <form action="{{ route('jobs.addToCart') }}" method="POST">
+        @csrf
+        <input type="hidden" name="job_id" value="{{ $job->id }}">
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+            Add to Cart
+        </button>
+    </form>
+</div>
+
+{{-- Flash Messages --}}
+@if(session('success'))
+    <div class="mt-4 p-2 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="mt-4 p-2 bg-red-100 text-red-800 rounded">{{ session('error') }}</div>
+@endif
         
 @endsection
