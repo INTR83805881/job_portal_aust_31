@@ -41,7 +41,7 @@ Applicaion_Form::create([
     'applicant_id' => $applicant->id,
 ]);
 
-        return back()->with('success', 'Successfully applied for this job.');
+         return redirect('/jobs')->with('success', 'Successfully applied for this job.');
     }
 
     /**
@@ -67,6 +67,14 @@ if (!$applicant) {
 
                           if ($exists) {
             return back()->with('error', 'This job is already in your cart.');
+        }
+
+         $exists2 = Applicaion_Form::where('jobs_id', $request->job_id)
+                          ->where('applicant_id', $applicant->id)
+                          ->exists();
+
+                          if ($exists2) {
+            return back()->with('error', 'You already applied for this job.Why add to cart?');
         }
 
 JobCart::create([

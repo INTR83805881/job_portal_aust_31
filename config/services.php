@@ -31,4 +31,14 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    // in config/services.php
+
+'hf' => [
+    'token' => env('HF_API_TOKEN'),
+    'model' => env('HF_MODEL'),
+    'host' => env('HF_API_HOST', 'https://api-inference.huggingface.co'),
+],
+
+
+
 ];
