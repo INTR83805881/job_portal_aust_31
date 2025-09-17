@@ -1,0 +1,42 @@
+services:
+  app:
+    build: .
+    container_name: laravel_app
+    ports:
+      - "8000:8000"   # Laravel
+      - "5173:5173"   # Vite HMR
+    volumes:
+      - ./:/var/www/html  # Live mount for editing
+      - /var/www/html/vendor  # Avoid overwriting vendor after composer install
+      - /var/www/html/node_modules  # Avoid overwriting node_modules
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:10.3
+    container_name: laravel_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: job_portal_31
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+  
+  
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel_phpmyadmin
+    restart: always
+    ports:
+      - "8080:80"   # <-- phpMyAdmin will be available at http://localhost:8080
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: rootpassword
+    depends_on:
+      - db
+
+volumes:
+  db_data:
