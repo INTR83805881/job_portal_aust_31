@@ -22,13 +22,18 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 # Copy only composer files first (for caching)
 COPY composer.json composer.lock ./
+COPY package*.json vite.config.js ./
 
 # Install PHP dependencies without running scripts yet
 RUN composer install --no-scripts --optimize-autoloader
+RUN npm install 
+
 
 
 # Copy the rest of the project
 COPY . .
+
+RUN npm run build
 
 # Run post-autoload scripts now that artisan exists
 RUN composer run-script post-autoload-dump
