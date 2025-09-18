@@ -42,4 +42,5 @@ RUN composer run-script post-autoload-dump
 EXPOSE 8000
 
 # Start Laravel development server
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+CMD ["sh", "-c", "php artisan db:check-migrate && php artisan serve --host=0.0.0.0 --port=8000"]
+
