@@ -12,7 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('work_submits', function (Blueprint $table) {
-            $table->id();
+             $table->id();
+              $table->foreignId('applicant_id')->constrained('applicants')->onDelete('cascade');
+            $table->foreignId('job_id')->constrained('jobs')->onDelete('cascade');
+            $table->string('work_file_path')->nullable(); 
+           $table->enum('rating', ['1', '2', '3', '4', '5'])->nullable(); // Rating out of 5
+            $table->text('feedback')->nullable(); // Feedback from the organization
             $table->timestamps();
         });
     }
