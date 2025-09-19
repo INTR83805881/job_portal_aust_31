@@ -20,7 +20,11 @@ use App\Http\Controllers\MindController;
 use App\Http\Controllers\Applications\AppliedCandidatesController;
 use App\Http\Controllers\Profile\ApplicantResumeController;
 use App\Http\Controllers\Profile\ApplicantCoverLetterController;
-
+use App\Http\Controllers\Applications\CandidatePdfsController;
+use App\Http\Controllers\CurrentJobs\ApplicantCurrentJobsController;    
+use App\Http\Controllers\CurrentJobs\OrganizationCurrentJobsController;
+use App\Http\Controllers\WorkSubmission\WorkSubmitController;
+use App\Http\Controllers\WorkSubmission\WorkCheckController;
 
 
 /*
@@ -179,5 +183,41 @@ Route::post('/applied-candidates/{job}/{applicant}/accept', [AppliedCandidatesCo
     
 });
 
+Route::middleware('auth')->group(function () {
+    Route::get('/applicant-current-jobs', [ApplicantCurrentJobsController::class, 'index'])
+        ->name('applicant.current-jobs.index');
 
+    Route::delete('/applicant-current-jobs/{id}', [ApplicantCurrentJobsController::class, 'destroy'])
+        ->name('applicant.current.jobs.destroy');
+});
+
+Route::middleware('auth')->group(function() {
+    Route::get('/work-submit/{jobId}', [WorkSubmitController::class, 'create'])
+        ->name('work.submission.create');
+
+    Route::post('/work-submit/{jobId}', [WorkSubmitController::class, 'store'])
+        ->name('work.submission.store');
+
+    Route::patch('/work-submit/{jobId}', [WorkSubmitController::class, 'update'])
+        ->name('work.submission.update');
+
+    Route::get('/work-submit/index/{jobId}', [WorkSubmitController::class, 'index'])
+        ->name('work.submission.index');
+});
+
+Route::middleware('auth')->group(function(){
+Route::get('/organization-current-jobs', [OrganizationCurrentJobsController::class, 'index'])
+    ->name('organization-current-jobs.index');
+});
+
+Route::middleware('auth')->group(function() {
+
+    // Show submissions for a specific job
+    Route::get('/work-check/{jobId}', [WorkCheckController::class, 'index'])
+        ->name('work-check.index');
+
+    // Update feedback & rating for a submission
+    Route::post('/work-check/{submissionId}/feedback', [WorkCheckController::class, 'updateFeedback'])
+        ->name('work-check.feedback.update');
+});
 
