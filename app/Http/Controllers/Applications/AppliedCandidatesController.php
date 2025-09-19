@@ -67,7 +67,7 @@ class AppliedCandidatesController extends Controller
     }
 
     /**
-     * View applicant resume
+     * View applicant pdfs (resume/cover letter).
      */
     public function viewResume($applicantId)
     {
@@ -89,6 +89,8 @@ class AppliedCandidatesController extends Controller
         return $this->candidatePdfs->downloadCoverLetter($applicantId);
     }
 
+
+    
 
      public function accept($jobId, $applicantId)
     {
