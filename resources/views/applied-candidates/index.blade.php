@@ -1,96 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="max-w-6xl mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold mb-6">Applications for My Jobs</h2>
+<div class="max-w-4xl mx-auto py-6">
+    <h2 class="text-2xl font-bold mb-4">Jobs Posted by Your Organization</h2>
 
-    {{-- Flash messages --}}
-    @if(session('success'))
-        <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">{{ session('success') }}</div>
-    @endif
-    @if(session('error'))
-        <div class="mb-4 p-3 bg-red-100 text-red-800 rounded">{{ session('error') }}</div>
-    @endif
-
-    @if($applications->isEmpty())
-        <p class="text-gray-600">No applications have been submitted for your jobs yet.</p>
+    @if($jobs->isEmpty())
+        <p class="text-gray-600">No jobs applied for currently.</p>
     @else
-        @foreach($applications as $app)
-            @php 
-                $job = $app->job; 
-                $applicant = $app->applicant; 
-            @endphp
+        <ul class="space-y-4">
+            @foreach($jobs as $job)
+                <li class="p-4 border rounded bg-white shadow">
+                    <h3 class="text-lg font-semibold">{{ $job->title }}</h3>
+                    <p class="text-gray-700">{{ $job->description }}</p>
+                    <p class="text-sm text-gray-500">Deadline: {{ $job->deadline }}</p>
 
-            <div class="bg-white rounded-lg shadow p-6 mb-6 border border-gray-200">
-                <div class="grid grid-cols-2 gap-6 items-start">
-                    {{-- Applicant Info --}}
-                    <div class="border-r pr-6">
-                        <h3 class="text-xl font-semibold mb-3">Applicant Information</h3>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Name:</span> {{ $applicant->user?->name ?? 'N/A' }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Email:</span> {{ $applicant->user?->email ?? 'N/A' }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Applied on:</span> {{ $app->created_at->format('d M Y, h:i A') }}
-                        </p>
+                  {{-- Organization info --}}
+@if($job->organization)
+    <p class="text-sm text-gray-500 mt-1">
+        Organization: <span class="font-medium">{{ $job->organization->company_name }} (ID: {{ $job->organization->id }})</span>
+    </p>
+@endif
 
-                        {{-- Applicant Skills --}}
-                        <div class="mt-3">
-                            <span class="text-gray-700 font-semibold">Applicant Skills:</span>
-                            <div class="mt-1 flex flex-wrap gap-2">
-                                @forelse($applicant->applicantSkillsets as $appSkill)
-                                    <span class="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800">
-                                        {{ $appSkill->skill?->skill_name ?? 'Unnamed Skill' }}
-                                    </span>
-                                @empty
-                                    <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-500">
-                                        No skills listed
-                                    </span>
-                                @endforelse
-                            </div>
+
+                    {{-- Skills --}}
+                    @if($job->skills->isNotEmpty())
+                        <div class="mt-2">
+                            <h4 class="font-medium text-gray-700">Required Skills:</h4>
+                            <ul class="flex flex-wrap gap-2 mt-1">
+                                @foreach($job->skills as $skill)
+                                    <li class="px-2 py-1 bg-gray-200 text-gray-800 rounded text-sm">
+                                        {{ $skill->skill_name }}
+                                    </li>
+                                @endforeach
+                            </ul>
                         </div>
-                    </div>
+                    @endif
 
-                    {{-- Job Info --}}
-                    <div class="pl-6">
-                        <h3 class="text-xl font-semibold mb-3">Job Information</h3>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Title:</span> {{ $job->title }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Description:</span> {{ $job->description }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Location:</span> {{ $job->location }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Employment Type:</span> {{ ucfirst($job->employment_type) }}
-                        </p>
-                        <p class="text-gray-700">
-                            <span class="font-semibold">Deadline:</span> {{ $job->deadline }}
-                        </p>
-
-                        {{-- Job Skills --}}
-                        <div class="mt-3">
-                            <span class="text-gray-700 font-semibold">Job Skills:</span>
-                            <div class="mt-1 flex flex-wrap gap-2">
-                                @forelse($job->jobSkillsets as $jobSkill)
-                                    <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-800">
-                                        {{ $jobSkill->skill?->skill_name ?? 'Unnamed Skill' }}
-                                    </span>
-                                @empty
-                                    <span class="text-xs px-2 py-1 rounded-full bg-gray-100 text-gray-500">
-                                        No skills listed
-                                    </span>
-                                @endforelse
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endforeach
+                    <a href="{{ route('applied.candidates.candidates', $job->id) }}" 
+                       class="mt-2 inline-block px-3 py-1 bg-blue-600 text-white rounded">
+                       View Applicants
+                    </a>
+                </li>
+            @endforeach
+        </ul>
     @endif
 </div>
 @endsection
