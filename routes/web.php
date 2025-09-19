@@ -165,8 +165,18 @@ Route::post('/create-minds', [MindController::class, 'store'])->name('minds.stor
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/applied-candidates', [AppliedCandidatesController::class, 'index'])
-        ->name('applied.candidates.index');
+Route::get('/applied-candidates', [AppliedCandidatesController::class, 'jobs'])->name('applied.candidates.jobs');
+Route::get('/applied-candidates/{id}', [AppliedCandidatesController::class, 'candidates'])->name('applied.candidates.candidates');
+
+Route::get('/applied-candidates/{id}/resume/view', [AppliedCandidatesController::class, 'viewResume'])->name('appliedCandidates.viewResume');
+Route::get('/applied-candidates/{id}/resume/download', [AppliedCandidatesController::class, 'downloadResume'])->name('appliedCandidates.downloadResume');
+
+Route::get('/applied-candidates/{id}/cover-letter/view', [AppliedCandidatesController::class, 'viewCoverLetter'])->name('appliedCandidates.viewCoverLetter');
+Route::get('/applied-candidates/{id}/cover-letter/download', [AppliedCandidatesController::class, 'downloadCoverLetter'])->name('appliedCandidates.downloadCoverLetter');
+
+Route::post('/applied-candidates/{job}/{applicant}/accept', [AppliedCandidatesController::class, 'accept'])->name('appliedCandidates.accept');
+    Route::post('/applied-candidates/{job}/{applicant}/reject', [AppliedCandidatesController::class, 'reject'])->name('appliedCandidates.reject');
+    
 });
 
 
