@@ -25,6 +25,8 @@ use App\Http\Controllers\CurrentJobs\ApplicantCurrentJobsController;
 use App\Http\Controllers\CurrentJobs\OrganizationCurrentJobsController;
 use App\Http\Controllers\WorkSubmission\WorkSubmitController;
 use App\Http\Controllers\WorkSubmission\WorkCheckController;
+use App\Http\Controllers\FinishedWorks\FinishedWorksController;
+use App\Http\Controllers\FinishedWorks\OrganizationFinishedWorksController;
 
 
 /*
@@ -237,4 +239,8 @@ Route::middleware('auth')->group(function () {
         ->name('organization.dashboard');
 });
 
+Route::get('/finished-works', [FinishedWorksController::class, 'index'])
+    ->name('finished-works.index');
 
+Route::get('/organization-finished-works', [OrganizationFinishedWorksController::class, 'index'])
+    ->name('organization.finished.works');
