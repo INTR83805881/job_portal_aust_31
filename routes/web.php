@@ -227,3 +227,14 @@ Route::post('/work-check/{jobId}/{applicantId}/terminate', [WorkCheckController:
     ->name('work-check.terminate');
 });
 
+Route::middleware('auth')->group(function () {
+    // Applicant Dashboard
+    Route::get('/applicant-dashboard', [App\Http\Controllers\ApplicantDashboardController::class, 'index'])
+        ->name('applicant.dashboard');
+
+    // Organization Dashboard
+    Route::get('/organization-dashboard', [App\Http\Controllers\OrganizationDashboardController::class, 'index'])
+        ->name('organization.dashboard');
+});
+
+
