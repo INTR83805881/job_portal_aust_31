@@ -25,7 +25,7 @@
                     </div>
 
                     {{-- Work Submission --}}
-                    <p><strong>Work Link:</strong> 
+                    <p><strong>Work Link:</strong>
                         <a href="{{ $submission->work_file_path }}" target="_blank" class="text-blue-600 underline">
                             {{ $submission->work_file_path }}
                         </a>
@@ -44,6 +44,22 @@
                         </div>
                         <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Update Feedback</button>
                     </form>
+
+                    {{-- Accept & Terminate Buttons --}}
+                    <div class="mt-4 flex space-x-4">
+                        <form action="{{ route('work-check.accept', [$jobId, $submission->applicant_id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-green-600 text-white rounded">
+                                Accept Job
+                            </button>
+                        </form>
+                        <form action="{{ route('work-check.terminate', [$jobId, $submission->applicant_id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">
+                                Terminate Employee
+                            </button>
+                        </form>
+                    </div>
                 </div>
             @endforeach
         </div>

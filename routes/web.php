@@ -219,5 +219,11 @@ Route::middleware('auth')->group(function() {
     // Update feedback & rating for a submission
     Route::post('/work-check/{submissionId}/feedback', [WorkCheckController::class, 'updateFeedback'])
         ->name('work-check.feedback.update');
+
+    Route::post('/work-check/{jobId}/{applicantId}/accept', [WorkCheckController::class, 'acceptJob'])
+    ->name('work-check.accept');
+
+Route::post('/work-check/{jobId}/{applicantId}/terminate', [WorkCheckController::class, 'terminateEmployee'])
+    ->name('work-check.terminate');
 });
 
