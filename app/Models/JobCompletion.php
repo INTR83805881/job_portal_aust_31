@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Applicant;
 use App\Models\Jobs;
 
-class job_completions extends Model
+class JobCompletion extends Model
 {
    protected $table = 'job_completions';
 
