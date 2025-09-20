@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 sticky top-0 z-40">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16 items-center">
 
@@ -10,7 +10,7 @@
                 </a>
             </div>
 
-            <!-- Left Navigation Links (always visible) -->
+            <!-- Left Navigation Links -->
             <div class="hidden sm:flex space-x-6">
                 <a href="{{ route('home') }}" class="{{ request()->is('/') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Home</a>
                 <a href="{{ route('jobs.index') }}" class="{{ request()->is('jobs') ? 'text-indigo-600 font-medium' : 'text-gray-600 hover:text-indigo-600' }}">Jobs</a>
@@ -19,39 +19,35 @@
             </div>
 
             <!-- Right side Authentication -->
-<div class="hidden sm:flex sm:items-center sm:space-x-4">
-    @guest
-        <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600">Login</a>
-        <a href="{{ route('register') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Sign Up</a>
-    @endguest
+            <div class="hidden sm:flex sm:items-center sm:space-x-4">
+                @guest
+                    <a href="{{ route('login') }}" class="text-gray-700 hover:text-indigo-600">Login</a>
+                    <a href="{{ route('register') }}" class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">Sign Up</a>
+                @endguest
 
-    @auth
-        <x-dropdown align="right" width="48">
-            <x-slot name="trigger">
-                <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                    <div>{{ Auth::user()->name }}</div>
-                    <div class="ml-1">
-                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                </button>
-            </x-slot>
+                @auth
+                    <!-- Dashboard Button -->
+                    <a href="{{ route('dashboard') }}" 
+                       class="px-4 py-2 text-sm font-medium text-indigo-600 border border-indigo-600 rounded-lg hover:bg-indigo-50 transition">
+                        Dashboard
+                    </a>
 
-            <x-slot name="content">
-                <x-dropdown-link :href="route('profile.page')">Profile</x-dropdown-link>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <x-dropdown-link :href="route('logout')"
-                        onclick="event.preventDefault(); this.closest('form').submit();">
-                        Log Out
-                    </x-dropdown-link>
-                </form>
-            </x-slot>
-        </x-dropdown>
-    @endauth
-</div>
+                    <!-- Profile Button -->
+                    <a href="{{ route('profile.page') }}" 
+                       class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 transition">
+                        Profile
+                    </a>
 
+                    <!-- Logout -->
+                    <form method="POST" action="{{ route('logout') }}" class="inline">
+                        @csrf
+                        <button type="submit" 
+                                class="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-100 transition">
+                            Log Out
+                        </button>
+                    </form>
+                @endauth
+            </div>
 
             <!-- Hamburger for mobile -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -62,7 +58,6 @@
                     </svg>
                 </button>
             </div>
-
         </div>
     </div>
 
@@ -76,20 +71,19 @@
             <a href="{{ route('contact') }}" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600">Contact</a>
         </div>
 
-       @auth
-    <div class="px-4">
-        <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
-        <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
-    </div>
-    <div class="mt-3 space-y-1">
-        <x-responsive-nav-link :href="route('profile.page')">Profile</x-responsive-nav-link>
-        <form method="POST" action="{{ route('logout') }}">
-            @csrf
-            <x-responsive-nav-link :href="route('logout')"
-                onclick="event.preventDefault(); this.closest('form').submit();">Log Out</x-responsive-nav-link>
-        </form>
-    </div>
-@endauth
-
+        @auth
+            <div class="px-4">
+                <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+            </div>
+            <div class="mt-3 space-y-1 px-3">
+                <a href="{{ route('dashboard') }}" class="block w-full text-center px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100">Dashboard</a>
+                <a href="{{ route('profile.page') }}" class="block w-full text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700">Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="block w-full text-center px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200">Log Out</button>
+                </form>
+            </div>
+        @endauth
     </div>
 </nav>
