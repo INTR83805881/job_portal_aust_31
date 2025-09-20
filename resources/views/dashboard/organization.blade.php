@@ -69,6 +69,18 @@
             <h2 class="text-lg font-semibold text-gray-800">Current Jobs</h2>
             <p class="text-sm text-gray-500 mt-1">Manage ongoing job postings.</p>
         </a>
+
+        <!-- Finished Works -->
+        <a href="{{ route('organization.finished.works') }}" 
+           class="group bg-white rounded-2xl shadow hover:shadow-lg transition p-6 border border-gray-100">
+            <div class="flex items-center justify-center w-12 h-12 bg-pink-100 rounded-full mb-4 group-hover:bg-pink-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-pink-600 group-hover:text-pink-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 20l9-5-9-5-9 5 9 5zm0-7V4m0 9l-9 5" />
+                </svg>
+            </div>
+            <h2 class="text-lg font-semibold text-gray-800">Finished Works</h2>
+            <p class="text-sm text-gray-500 mt-1">Review all completed jobs and submissions.</p>
+        </a>
     </div>
 </div>
 @endsection
