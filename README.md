@@ -21,6 +21,13 @@ Planned AI integration will bring intelligent job matching and resume filtering,
 
 ---
 
+
+## Repository Link
+
+[https://github.com/INTR83805881/job_portal_aust_31.git](https://github.com/INTR83805881/job_portal_aust_31.git)
+
+---
+
 ## 🧩 Core Features
 
 ### 🔍 AI-Powered Job Matching (Planned)
